@@ -75,6 +75,7 @@ export default function Main() {
                 <ArrowDown strokeWidth={1.5} className="w-5 h-5 transition-all duration-300 ease-in-out" />
             </div>
 
+            hello
         </main>
     );
 }
