@@ -74,8 +74,7 @@ export default function Main() {
             <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-10 h-10 z-10 border border-white flex items-center justify-center cursor-pointer transition-colors bg-midnight hover:bg-white hover:text-black">
                 <ArrowDown strokeWidth={1.5} className="w-5 h-5 transition-all duration-300 ease-in-out" />
             </div>
-
-            hello
+            bitch
         </main>
     );
 }
