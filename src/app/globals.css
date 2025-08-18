@@ -141,3 +141,32 @@ body {
 .group:hover .group-hover\:animate-gradient-slide {
   animation: gradient-slide 2s linear infinite;
 }
+
+@keyframes marquee {
+  0% {
+    transform: translateX(-51%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(-51%); }
+  100% { transform: translateX(0%); } /* your infinite loop */
+}

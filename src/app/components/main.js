@@ -1,38 +1,44 @@
 "use client";
 import { ArrowDown } from "lucide-react";
 import Image from "next/image";
+import { Icon } from "@iconify/react";
+import TechCarousel from "./techCarousel";
+
 
 export default function Main() {
     return (
         <main className="bg-midnight text-white p-20 relative" style={{ height: "calc(100vh - 72px)" }}>
             {/* Floating image CTA top-right */}
-            <div className="absolute top-6 right-6 group cursor-regular">
-                <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden transition-transform duration-300 hover:scale-105">
+            <a href="#about">
+                <div className="absolute top-6 right-6 group cursor-pointer">
+                    <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden transition-transform duration-300 hover:scale-105">
 
-                    {/* Subtle gradient glow */}
-                    <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-[#25b4f0]/40 to-[#e48098]/40 blur-md opacity-20 group-hover:opacity-40 transition-opacity z-0"></div>
+                        {/* Subtle gradient glow */}
+                        <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-[#25b4f0]/40 to-[#e48098]/40 blur-md opacity-20 group-hover:opacity-40 transition-opacity z-0"></div>
 
-                    {/* White outline ring */}
-                    <div className="absolute inset-0 rounded-full border border-white z-10 pointer-events-none" />
+                        {/* White outline ring */}
+                        <div className="absolute inset-0 rounded-full border border-white z-10 pointer-events-none" />
 
-                    {/* Image itself */}
-                    <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg z-9">
-                        <Image
-                            src="/images/headshot2.png"
-                            alt="Headshot"
-                            className="object-cover w-full h-full"
-                            quality={100}
-                            priority
-                            fill
-                        />
+                        {/* Image itself */}
+                        <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg z-9">
+                            <Image
+                                src="/images/headshot2.png"
+                                alt="Headshot"
+                                className="object-cover w-full h-full"
+                                quality={100}
+                                priority
+                                fill
+                            />
+                        </div>
+                    </div>
+
+                    {/* Caption on hover */}
+                    <div className="absolute top-full w-full mt-2 text-center dm-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm text-gray-400">
+                        That's me 👋
                     </div>
                 </div>
+            </a>
 
-                {/* Caption on hover */}
-                <div className="absolute top-full w-full mt-2 text-center dm-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm text-gray-400">
-                    That's me 👋
-                </div>
-            </div>
 
 
             {/* Main Content */}
@@ -70,11 +76,15 @@ export default function Main() {
                 </div>
             </div>
 
+            <TechCarousel/>
+
+
+
             {/* Scroll Arrow */}
             <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-10 h-10 z-10 border border-white flex items-center justify-center cursor-pointer transition-colors bg-midnight hover:bg-white hover:text-black">
                 <ArrowDown strokeWidth={1.5} className="w-5 h-5 transition-all duration-300 ease-in-out" />
             </div>
-            bitch
+
         </main>
     );
 }
