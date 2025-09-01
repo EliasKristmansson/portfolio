@@ -43,7 +43,7 @@ export default function Main() {
 
             {/* Main Content */}
             <div>
-                <div className="text-8xl space-mono-bold">
+                <div className="text-8xl space-mono-bold">  
                     {"{"}
                     <span style={{ color: "#25b4f0" }}>Designer</span>
                     {"+"}
