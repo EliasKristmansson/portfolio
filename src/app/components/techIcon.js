@@ -12,7 +12,7 @@ export default function TechIcon({ iconClass, name }) {
             <i className={`${iconClass} text-white text-9xl cursor-pointer`}></i>
 
             {hovered && (
-                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-3 w-48 p-3 bg-white text-black rounded-lg shadow-lg z-50">
+                <div className="absolute bg-white text-black shadow-lg">
                     <p className="font-bold">{name}</p>
                     <p className="text-sm mt-1">This is a short description of {name}.</p>
                 </div>
