@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 export default function TechIcon({ iconClass, name, description, link, setCarouselPaused }) {
@@ -8,6 +8,12 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
     const iconRef = useRef(null);
 
     const [tooltipPos, setTooltipPos] = useState({ left: 0, top: 0 });
+
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const showTooltip = hovered || tooltipHovered || bufferHovered;
 
@@ -31,7 +37,7 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
     };
 
     // Tooltip element (always rendered, opacity toggled)
-    const tooltip = createPortal(
+    const tooltip = mounted ? createPortal(
         <>
             {/* Invisible buffer area */}
             <div
@@ -100,7 +106,7 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
             </div>
         </>,
         document.body
-    );
+    ) : null;
 
     return (
         <div
