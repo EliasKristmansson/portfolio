@@ -7,7 +7,10 @@ import TechCarousel from "./techCarousel";
 
 export default function Main() {
     return (
-        <main className="bg-midnight text-white p-20 relative" style={{ height: "calc(100vh - 72px)" }}>
+        <main
+            className="bg-midnight text-white p-20 relative border-b-[2px] border-midnight-light" style={{ height: "calc(100vh - 72px)" }}
+        >
+
             {/* Floating image CTA top-right */}
             <a href="#about">
                 <div className="absolute top-6 right-6 group cursor-pointer">
@@ -78,10 +81,8 @@ export default function Main() {
 
             <TechCarousel/>
 
-
-
             {/* Scroll Arrow */}
-            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-10 h-10 z-10 border border-white flex items-center justify-center cursor-pointer transition-colors bg-midnight hover:bg-white hover:text-black">
+            <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-10 h-10 z-100 border border-white flex items-center justify-center cursor-pointer transition-colors bg-midnight hover:bg-white hover:text-black">
                 <ArrowDown strokeWidth={1.5} className="w-5 h-5 transition-all duration-300 ease-in-out" />
             </div>
 
