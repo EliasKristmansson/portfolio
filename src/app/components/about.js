@@ -2,7 +2,7 @@
 
 export default function About() {
     return (
-        <main id="about" className="bg-midnight text-white p-20 relative">
+        <main id="about" className="bg-midnight-dark text-white p-20 relative">
             <div className="text-7xl mt-15 space-mono-bold">
                 <div>
                     {"<"}

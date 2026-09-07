@@ -61,9 +61,7 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
             />
             {/* Tooltip */}
             <div
-                className={`p-3 fixed w-48
-                    bg-midnight-light text-gray-400
-                    rounded-lg border border-white
+                className={`fixed w-48
                     transition-opacity duration-200 ease-in-out
                     z-[9999]
                     overflow-visible
@@ -83,9 +81,7 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
                     setCarouselPaused?.(false);
                 }}
             >
-                {/* Subtle gradient glow */}
-                <div className="absolute -inset-2 rounded-lg bg-gradient-to-tr from-[#25b4f0]/40 to-[#e48098]/40 blur-md opacity-30 pointer-events-none z-0"></div>
-                <div className="relative z-10">
+                <div className="relative z-10 p-3 w-full bg-midnight-dark text-gray-300 border border-white">
                     <p className="font-bold">{name}</p>
                     <p className="text-sm mt-1">{description}</p>
                     <a

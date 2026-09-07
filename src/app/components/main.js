@@ -8,7 +8,7 @@ import TechCarousel from "./techCarousel";
 export default function Main() {
     return (
         <main
-            className="bg-midnight text-white p-20 relative border-b-[2px] border-midnight-light" style={{ height: "calc(100vh - 72px)" }}
+            className="bg-midnight-dark text-white p-20 relative border-b-[2px] border-midnight-light" style={{ height: "calc(100vh - 72px)" }}
         >
 
             {/* Floating image CTA top-right */}
@@ -29,6 +29,7 @@ export default function Main() {
                                 alt="Headshot"
                                 className="object-cover w-full h-full"
                                 quality={100}
+                                sizes="(min-width: 768px) 112px, 96px"
                                 priority
                                 fill
                             />
@@ -46,7 +47,7 @@ export default function Main() {
 
             {/* Main Content */}
             <div>
-                <div className="text-8xl space-mono-bold">  
+                <div className="text-8xl space-mono-bold">
                     {"{"}
                     <span style={{ color: "#25b4f0" }}>Designer</span>
                     {"+"}
@@ -79,7 +80,7 @@ export default function Main() {
                 </div>
             </div>
 
-            <TechCarousel/>
+            <TechCarousel />
 
             {/* Scroll Arrow */}
             <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-10 h-10 z-100 border border-white flex items-center justify-center cursor-pointer transition-colors bg-midnight hover:bg-white hover:text-black">
