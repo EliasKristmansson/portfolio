@@ -30,6 +30,68 @@ body {
   color: var(--foreground);
 }
 
+.about-card {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --cursor-glow: rgba(37, 180, 240, 0.14);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.about-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle 1200px at var(--mouse-x) var(--mouse-y), var(--cursor-glow), transparent 72%);
+  transition: opacity 200ms ease;
+}
+
+.about-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.about-card:hover {
+  border-color: transparent;
+  border-image: linear-gradient(to bottom, var(--card-gradient-start), var(--card-gradient-end)) 1;
+  box-shadow: 0 5px 16px var(--cursor-glow);
+}
+
+.about-card:hover::before {
+  opacity: 1;
+}
+
+.about-card-top {
+  --card-gradient-start: #e48098;
+  --card-gradient-end: #b995c5;
+}
+
+.about-card-middle {
+  --card-gradient-start: #b995c5;
+  --card-gradient-end: #65a4da;
+}
+
+.about-card-bottom {
+  --card-gradient-start: #65a4da;
+  --card-gradient-end: #25b4f0;
+}
+
+.about-card-marker {
+  transition: color 200ms ease;
+}
+
+.about-card:hover .about-card-marker {
+  color: transparent;
+  background: linear-gradient(to bottom, var(--card-gradient-start), var(--card-gradient-end));
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
 .space-grotesk {
   font-family: "Space Grotesk", sans-serif;
   font-optical-sizing: auto;

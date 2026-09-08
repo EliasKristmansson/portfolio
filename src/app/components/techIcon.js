@@ -81,7 +81,7 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
                     setCarouselPaused?.(false);
                 }}
             >
-                <div className="relative z-10 p-3 w-full bg-midnight-dark text-gray-300 border border-white">
+                <div className="relative z-10 p-3 w-full bg-midnight-dark text-gray-300 border border-white space-grotesk">
                     <p className="font-bold">{name}</p>
                     <p className="text-sm mt-1">{description}</p>
                     <a

@@ -68,9 +68,6 @@ const logos = [
 export default function TechCarousel() {
     const [paused, setPaused] = useState(false);
 
-    // CSS-klasser för ikonerna
-    const iconClasses = "text-white text-9xl cursor-pointer";
-
     return (
         <div className="relative overflow-hidden mt-25 py-10">
             {/* Left gradient overlay */}

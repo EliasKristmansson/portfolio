@@ -9,7 +9,7 @@ export default function Home() {
 		// Scrollable content
 
 
-		<div className="max-h-screen overflow-y-auto
+		<div data-scroll-container className="max-h-screen overflow-y-auto
 					[&::-webkit-scrollbar]:w-3
 					[&::-webkit-scrollbar-thumb]:border-2
 					[&::-webkit-scrollbar-thumb]:border-solid

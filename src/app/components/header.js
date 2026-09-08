@@ -1,13 +1,56 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { User, Layers, Mail, Menu, X } from "lucide-react";
 
 export default function Header() {
+    const headerHeight = 72;
+    const revealBuffer = 24;
     const [menuOpen, setMenuOpen] = useState(false);
+    const [headerOffset, setHeaderOffset] = useState(0);
+    const headerRef = useRef(null);
+
+    useEffect(() => {
+        const scrollContainer = headerRef.current?.closest("[data-scroll-container]");
+        if (!scrollContainer) return;
+
+        let previousScrollTop = scrollContainer.scrollTop;
+        let currentOffset = 0;
+        let upwardScroll = 0;
+
+        const handleScroll = () => {
+            const currentScrollTop = scrollContainer.scrollTop;
+            const scrollDelta = currentScrollTop - previousScrollTop;
+
+            if (currentScrollTop <= headerHeight) {
+                currentOffset = 0;
+                upwardScroll = 0;
+            } else if (scrollDelta > 0) {
+                upwardScroll = 0;
+                const distancePastThreshold = currentScrollTop - headerHeight;
+                currentOffset = Math.min(headerHeight, Math.max(currentOffset + scrollDelta, distancePastThreshold));
+            } else if (scrollDelta < 0) {
+                const previousUpwardScroll = upwardScroll;
+                upwardScroll += Math.abs(scrollDelta);
+                const previousRevealDistance = Math.max(0, previousUpwardScroll - revealBuffer);
+                const currentRevealDistance = Math.max(0, upwardScroll - revealBuffer);
+                currentOffset = Math.max(0, currentOffset - (currentRevealDistance - previousRevealDistance));
+            }
+
+            previousScrollTop = currentScrollTop;
+            setHeaderOffset(currentOffset);
+        };
+
+        scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
+        return () => scrollContainer.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return (
-        <header className="bg-midnight-dark  text-white p-6 border-b border-midnight-light flex h-18 items-center">
+        <header
+            ref={headerRef}
+            className="sticky top-0 z-[1000] bg-midnight-dark text-white p-6 border-b border-midnight-light flex h-18 items-center"
+            style={{ transform: `translateY(-${headerOffset}px)` }}
+        >
             <div className="relative inline-block cursor-pointer group">
                 Elias Kristmansson
                 <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-white transition-all group-hover:w-full"></span>
