@@ -3,7 +3,7 @@
 import Header from "./components/header.js";
 import Main from "./components/main.js";
 import About from "./components/about.js";
-import ShaderBackground from "./components/shaderBackground";
+import Shader from "./components/shader.js";
 
 export default function Home() {
 	return (
@@ -19,14 +19,15 @@ export default function Home() {
 					[&::-webkit-scrollbar-track]:bg-midnight
 					[&::-webkit-scrollbar-thumb]:bg-midnight-light
 					[&::-webkit-scrollbar-thumb]:rounded-full">
-			<ShaderBackground />
-
 			<div className="box-border space-grotesk">
 				<Header />
-				<Main />
-				<About />
-
-				<footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center"></footer>
+				<div className="relative isolate overflow-hidden">
+					<div className="relative z-10">
+						<Main />
+						<About />
+						<footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center"></footer>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

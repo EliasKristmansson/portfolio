@@ -27,8 +27,7 @@ export default function Header() {
                 upwardScroll = 0;
             } else if (scrollDelta > 0) {
                 upwardScroll = 0;
-                const distancePastThreshold = currentScrollTop - headerHeight;
-                currentOffset = Math.min(headerHeight, Math.max(currentOffset + scrollDelta, distancePastThreshold));
+                currentOffset = Math.min(headerHeight, currentOffset + scrollDelta);
             } else if (scrollDelta < 0) {
                 const previousUpwardScroll = upwardScroll;
                 upwardScroll += Math.abs(scrollDelta);

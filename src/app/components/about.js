@@ -1,5 +1,8 @@
 "use client";
 
+import Shader from "./shader";
+import { exampleFragment } from "./shaders/example.js";
+
 const hexToRgb = (hex) => {
     const value = hex.replace("#", "");
     return {
@@ -30,9 +33,11 @@ export default function About() {
     return (
         <main
             id="about"
-            className="bg-midnight-dark text-white px-6 py-20 md:px-20 relative"
+            className="text-white px-6 py-20 md:px-20 relative"
             style={{ minHeight: "calc(100vh)" }}
         >
+            <Shader fragmentShader={exampleFragment}/>
+
             <div className="mt-8 mx-auto max-w-6xl lg:min-h-[660px] grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] gap-14 items-stretch">
                 <div className="relative h-full min-h-[420px] md:min-h-[560px] border border-white bg-midnight-light/20 flex items-center justify-center overflow-hidden">
                     <div className="relative z-10 w-[calc(100%-2rem)] h-[calc(100%-2rem)] border border-dashed border-white/50 flex flex-col items-center justify-center text-center">

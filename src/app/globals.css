@@ -4,225 +4,226 @@
 
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --background: #ffffff;
+    --foreground: #171717;
 }
 
 @theme {
-  --color-midnight: #18181b;
-  --color-midnight-dark: #0e0e0f;
-  --color-midnight-light: #2e2e34;
+    --color-midnight: #18181b;
+    --color-midnight-dark: #0e0e0f;
+    --color-midnight-light: #2e2e34;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+    :root {
+        --background: #0a0a0a;
+        --foreground: #ededed;
+    }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+    background: var(--background);
+    color: var(--foreground);
 }
 
 .about-card {
-  --mouse-x: 50%;
-  --mouse-y: 50%;
-  --cursor-glow: rgba(37, 180, 240, 0.14);
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  transition: border-color 200ms ease, box-shadow 200ms ease;
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    --cursor-glow: rgba(37, 180, 240, 0.14);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .about-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  background: radial-gradient(circle 1200px at var(--mouse-x) var(--mouse-y), var(--cursor-glow), transparent 72%);
-  transition: opacity 200ms ease;
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle 1200px at var(--mouse-x) var(--mouse-y), var(--cursor-glow), transparent 72%);
+    transition: opacity 100ms ease;
 }
 
-.about-card > * {
-  position: relative;
-  z-index: 1;
+.about-card>* {
+    position: relative;
+    z-index: 1;
 }
 
 .about-card:hover {
-  border-color: transparent;
-  border-image: linear-gradient(to bottom, var(--card-gradient-start), var(--card-gradient-end)) 1;
-  box-shadow: 0 5px 16px var(--cursor-glow);
+    border-color: transparent;
+    border-image: linear-gradient(to bottom, var(--card-gradient-start), var(--card-gradient-end)) 1;
 }
 
 .about-card:hover::before {
-  opacity: 1;
+    opacity: 1;
 }
 
 .about-card-top {
-  --card-gradient-start: #e48098;
-  --card-gradient-end: #b995c5;
+    --card-gradient-start: #e48098;
+    --card-gradient-end: #b995c5;
 }
 
 .about-card-middle {
-  --card-gradient-start: #b995c5;
-  --card-gradient-end: #65a4da;
+    --card-gradient-start: #b995c5;
+    --card-gradient-end: #65a4da;
 }
 
 .about-card-bottom {
-  --card-gradient-start: #65a4da;
-  --card-gradient-end: #25b4f0;
+    --card-gradient-start: #65a4da;
+    --card-gradient-end: #25b4f0;
 }
 
 .about-card-marker {
-  transition: color 200ms ease;
+    transition: color 200ms ease;
 }
 
 .about-card:hover .about-card-marker {
-  color: transparent;
-  background: linear-gradient(to bottom, var(--card-gradient-start), var(--card-gradient-end));
-  background-clip: text;
-  -webkit-background-clip: text;
+    color: transparent;
+    background: linear-gradient(to bottom, var(--card-gradient-start), var(--card-gradient-end));
+    background-clip: text;
+    -webkit-background-clip: text;
 }
 
 .space-grotesk {
-  font-family: "Space Grotesk", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
+    font-family: "Space Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
 }
 
 .space-mono-regular {
-  font-family: "Space Mono", monospace;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
 }
 
 .space-mono-bold {
-  font-family: "Space Mono", monospace;
-  font-weight: 700;
-  font-style: normal;
+    font-family: "Space Mono", monospace;
+    font-weight: 700;
+    font-style: normal;
 }
 
 .space-mono-regular-italic {
-  font-family: "Space Mono", monospace;
-  font-weight: 400;
-  font-style: italic;
+    font-family: "Space Mono", monospace;
+    font-weight: 400;
+    font-style: italic;
 }
 
 .space-mono-bold-italic {
-  font-family: "Space Mono", monospace;
-  font-weight: 700;
-  font-style: italic;
+    font-family: "Space Mono", monospace;
+    font-weight: 700;
+    font-style: italic;
 }
 
 .inter {
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
 }
 
 .dm-sans {
-  font-family: "DM Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
 }
 
 .ibm-plex-sans {
-  font-family: "IBM Plex Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
+    font-family: "IBM Plex Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100;
 }
 
 @keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
 
-  50% {
-    background-position: 100% 50%;
-  }
+    50% {
+        background-position: 100% 50%;
+    }
 
-  100% {
-    background-position: 0% 50%;
-  }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .bg-animated-gradient {
-  background: linear-gradient(270deg, #1a202c, #2d3748, #1a202c);
-  background-size: 600% 600%;
-  animation: gradientShift 15s ease infinite;
+    background: linear-gradient(270deg, #1a202c, #2d3748, #1a202c);
+    background-size: 600% 600%;
+    animation: gradientShift 15s ease infinite;
 }
 
 @keyframes draw-ring {
-  0% {
-    transform: scale(1.1);
-    opacity: 0;
-  }
+    0% {
+        transform: scale(1.1);
+        opacity: 0;
+    }
 
-  50% {
-    opacity: 1;
-    transform: scale(1.03);
-  }
+    50% {
+        opacity: 1;
+        transform: scale(1.03);
+    }
 
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .animate-draw-ring {
-  animation: draw-ring 1s ease-out forwards;
+    animation: draw-ring 1s ease-out forwards;
 }
 
 @keyframes gradient-slide {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 200% 50%;
+    }
 }
 
 .animate-gradient-slide {
-  animation: gradient-slide 2s linear infinite;
+    animation: gradient-slide 2s linear infinite;
 }
 
 .group:hover .group-hover\:animate-gradient-slide {
-  animation: gradient-slide 2s linear infinite;
+    animation: gradient-slide 2s linear infinite;
 }
 
 @keyframes marquee {
-  0% {
-    transform: translateX(-51%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
+    0% {
+        transform: translateX(-51%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
 }
 
 .animate-marquee {
-  display: flex;
-  animation: marquee 30s linear infinite;
+    display: flex;
+    animation: marquee 30s linear infinite;
 }
 
 .marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 30s linear infinite;
-  animation-play-state: running;
+    display: flex;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+    animation-play-state: running;
 }
 
 .marquee.pause {
@@ -230,24 +231,15 @@ body {
 }
 
 .marquee:hover {
-  animation-play-state: paused;
+    animation-play-state: paused;
 }
 
 @keyframes marquee {
-  0% { transform: translateX(-51%); }
-  100% { transform: translateX(0%); } /* your infinite loop */
-}
+    0% {
+        transform: translateX(-51%);
+    }
 
-.shader-background {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.35;
-}
-
- shader-background canvas {
-  display: block;
-  width: 100%;
-  height: 100%;
+    100% {
+        transform: translateX(0%);
+    }
 }
