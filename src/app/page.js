@@ -3,6 +3,7 @@
 import Header from "./components/header.js";
 import Main from "./components/main.js";
 import About from "./components/about.js";
+import ShaderBackground from "./components/shaderBackground";
 
 export default function Home() {
 	return (
@@ -18,6 +19,8 @@ export default function Home() {
 					[&::-webkit-scrollbar-track]:bg-midnight
 					[&::-webkit-scrollbar-thumb]:bg-midnight-light
 					[&::-webkit-scrollbar-thumb]:rounded-full">
+			<ShaderBackground />
+
 			<div className="box-border space-grotesk">
 				<Header />
 				<Main />
