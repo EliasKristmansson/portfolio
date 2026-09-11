@@ -1,7 +1,8 @@
 "use client";
 
-import Shader from "./shader";
-import { exampleFragment } from "./shaders/example.js";
+import { ArrowDown, FileText, Folder, Monitor } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import DesktopIcon from "./desktopIcon.js";
 
 const hexToRgb = (hex) => {
     const value = hex.replace("#", "");
@@ -13,21 +14,78 @@ const hexToRgb = (hex) => {
 };
 
 export default function About() {
-    const handleCardMouseMove = (event) => {
-        const card = event.currentTarget;
-        const bounds = card.getBoundingClientRect();
-        const mouseX = event.clientX - bounds.left;
-        const mouseY = event.clientY - bounds.top;
-        const progress = Math.max(0, Math.min(1, mouseY / bounds.height));
-        const start = hexToRgb(card.dataset.gradientStart);
-        const end = hexToRgb(card.dataset.gradientEnd);
-        const red = Math.round(start.red + (end.red - start.red) * progress);
-        const green = Math.round(start.green + (end.green - start.green) * progress);
-        const blue = Math.round(start.blue + (end.blue - start.blue) * progress);
+    const desktopRef = useRef(null);
+    const selectionAreaRef = useRef(null);
+    const selectionStartRef = useRef(null);
+    const [selectedIconIds, setSelectedIconIds] = useState(new Set());
+    const [selectionBox, setSelectionBox] = useState(null);
 
-        card.style.setProperty("--mouse-x", `${mouseX}px`);
-        card.style.setProperty("--mouse-y", `${mouseY}px`);
-        card.style.setProperty("--cursor-glow", `rgba(${red}, ${green}, ${blue}, 0.25)`);
+    const desktopIcons = [
+        { id: "monitor", icon: Monitor, label: "Om mig.exe", initialPosition: { x: 24, y: 24 } },
+        { id: "folder", icon: Folder, label: "Projekt", initialPosition: { x: 24, y: 140 } },
+        { id: "filetext", icon: FileText, label: "CV.pdf", initialPosition: { x: 24, y: 256 } },
+    ];
+
+    const [clockTime, setClockTime] = useState(null);
+
+    useEffect(() => {
+        const updateClock = () => {
+            setClockTime(new Date().toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" }));
+        };
+        updateClock();
+        const interval = setInterval(updateClock, 1000 * 30); // en klocka behöver inte uppdateras varje sekund
+        return () => clearInterval(interval);
+    }, []);
+
+    const getSelectionPoint = (event) => {
+        const bounds = selectionAreaRef.current.getBoundingClientRect();
+        return {
+            x: event.clientX - bounds.left,
+            y: event.clientY - bounds.top,
+        };
+    };
+
+    const handleSelectionStart = (event) => {
+        if (event.target !== event.currentTarget) return;
+
+        const point = getSelectionPoint(event);
+        selectionStartRef.current = point;
+        setSelectionBox({ left: point.x, top: point.y, width: 0, height: 0 });
+        setSelectedIconIds(new Set());
+        event.currentTarget.setPointerCapture(event.pointerId);
+    };
+
+    const handleSelectionMove = (event) => {
+        const start = selectionStartRef.current;
+        if (!start) return;
+
+        const point = getSelectionPoint(event);
+        const left = Math.min(start.x, point.x);
+        const top = Math.min(start.y, point.y);
+        const width = Math.abs(point.x - start.x);
+        const height = Math.abs(point.y - start.y);
+        setSelectionBox({ left, top, width, height });
+
+        const selectionBounds = selectionAreaRef.current.getBoundingClientRect();
+        const selectedIds = new Set();
+        selectionAreaRef.current.querySelectorAll("[data-desktop-icon]").forEach((icon) => {
+            const iconBounds = icon.getBoundingClientRect();
+            const iconLeft = iconBounds.left - selectionBounds.left;
+            const iconTop = iconBounds.top - selectionBounds.top;
+            const intersects = iconLeft < left + width
+                && iconLeft + iconBounds.width > left
+                && iconTop < top + height
+                && iconTop + iconBounds.height > top;
+
+            if (intersects) selectedIds.add(icon.dataset.desktopIcon);
+        });
+
+        setSelectedIconIds(selectedIds);
+    };
+
+    const handleSelectionEnd = () => {
+        selectionStartRef.current = null;
+        setSelectionBox(null);
     };
 
     return (
@@ -36,32 +94,83 @@ export default function About() {
             className="text-white px-6 py-20 md:px-20 relative"
             style={{ minHeight: "calc(100vh)" }}
         >
-            <Shader fragmentShader={exampleFragment}/>
+            <div className="border border-white lg:min-h-[700px] grid grid-cols-1 gap-14 items-stretch">
+                <div
+                    ref={desktopRef}
+                    className="relative flex h-full min-h-[400px] w-full flex-col overflow-hidden border border-white/40"
+                    style={{
+                        backgroundColor: "#0e0e0f",
+                        backgroundImage: "radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)",
+                        backgroundSize: "24px 24px",
+                    }}
+                >
+                    {/* Titelbar — tunn rad högst upp, hintar "fönster" utan att bli skeuomorfisk */}
+                    <div className="flex h-7 flex-shrink-0 items-center justify-between border-b border-white/40 bg-midnight-dark/80 px-3">
+                        <span className="text-[11px] tracking-wide text-white/50 space-mono-bold">About</span>
+                        <div className="flex gap-1.5">
+                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#e48098" }} />
+                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#25b4f0" }} />
+                            <span className="h-2.5 w-2.5 border border-white/50" />
+                        </div>
+                    </div>
 
-            <div className="mt-8 mx-auto max-w-6xl lg:min-h-[660px] grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] gap-14 items-stretch">
-                <div className="relative h-full min-h-[420px] md:min-h-[560px] border border-white bg-midnight-light/20 flex items-center justify-center overflow-hidden">
-                    <div className="relative z-10 w-[calc(100%-2rem)] h-[calc(100%-2rem)] border border-dashed border-white/50 flex flex-col items-center justify-center text-center">
-                        <span className="text-3xl text-white/80">[your photo]</span>
-                        <span className="mt-3 text-sm text-gray-400">A portrait or image of you goes here</span>
+                    {/* Ikonyta — själva "skrivbordet" */}
+                    <div
+                        ref={selectionAreaRef}
+                        className="relative min-h-0 flex-1"
+                        onPointerDown={handleSelectionStart}
+                        onPointerMove={handleSelectionMove}
+                        onPointerUp={handleSelectionEnd}
+                        onPointerCancel={handleSelectionEnd}
+                    >
+                        {selectionBox && (
+                            <div
+                                aria-hidden="true"
+                                className="pointer-events-none absolute z-10 border border-[#e48098] bg-[#e48098]/25"
+                                style={selectionBox}
+                            />
+                        )}
+
+                        {desktopIcons.map((iconConfig) => (
+                            <DesktopIcon
+                                key={iconConfig.id}
+                                id={iconConfig.id}
+                                icon={iconConfig.icon}
+                                label={iconConfig.label}
+                                initialPosition={iconConfig.initialPosition}
+                                isSelected={selectedIconIds.has(iconConfig.id)}
+                                onSelect={(id) => setSelectedIconIds(new Set([id]))}
+                                containerRef={desktopRef}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Taskbar */}
+                    <div className="flex h-10 flex-shrink-0 items-center justify-between border-t border-white/40 bg-midnight-dark/95 px-3">
+                        <button
+                            type="button"
+                            className="flex items-center gap-2 border border-white/40 px-3 py-1 text-xs text-white transition-colors hover:bg-white hover:text-black space-mono-bold"
+                        >
+                            <span className="h-2 w-2" style={{ backgroundColor: "#25b4f0" }} />
+                            Start
+                        </button>
+                        {clockTime && (
+                            <span className="flex items-center gap-2 text-xs text-white/70 space-mono-bold">
+                                <span className="h-1.5 w-1.5" style={{ backgroundColor: "#e48098" }} />
+                                {clockTime}
+                            </span>
+                        )}
                     </div>
                 </div>
 
-                <div className="grid gap-8">
-                    <article onMouseMove={handleCardMouseMove} data-gradient-start="#e48098" data-gradient-end="#b995c5" className="about-card about-card-top border border-white p-6 md:p-8 min-h-40 bg-midnight-light/20">
-                        <h2 className="text-2xl md:text-3xl space-mono-bold"><span className="about-card-marker">// </span>Services</h2>
-                        <p className="mt-3 text-base leading-relaxed text-gray-300 space-grotesk">Write a short introduction about the work you do and the kind of problems you enjoy solving.</p>
-                    </article>
-
-                    <article onMouseMove={handleCardMouseMove} data-gradient-start="#b995c5" data-gradient-end="#65a4da" className="about-card about-card-middle border border-white p-6 md:p-8 min-h-40 bg-midnight-light/20">
-                        <h2 className="text-2xl md:text-3xl space-mono-bold"><span className="about-card-marker">// </span>Approach</h2>
-                        <p className="mt-3 text-base leading-relaxed text-gray-300 space-grotesk">Describe your process, what you value, and how you collaborate with people and teams.</p>
-                    </article>
-
-                    <article onMouseMove={handleCardMouseMove} data-gradient-start="#65a4da" data-gradient-end="#25b4f0" className="about-card about-card-bottom border border-white p-6 md:p-8 min-h-40 bg-midnight-light/20">
-                        <h2 className="text-2xl md:text-3xl space-mono-bold"><span className="about-card-marker">// </span>Story</h2>
-                        <p className="mt-3 text-base leading-relaxed text-gray-300 space-grotesk">Add the personal details, interests, or experiences that help visitors get to know you.</p>
-                    </article>
-                </div>
+                {/* Scroll Arrow */}
+                <a
+                    href="#about"
+                    aria-label="Go to About section"
+                    className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-10 h-10 z-100 border border-white flex items-center justify-center cursor-pointer transition-colors bg-midnight hover:bg-white hover:text-black"
+                >
+                    <ArrowDown strokeWidth={1.5} className="w-5 h-5 transition-all duration-300 ease-in-out" />
+                </a>
             </div>
         </main>
     );

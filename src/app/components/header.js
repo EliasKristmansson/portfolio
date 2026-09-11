@@ -47,7 +47,7 @@ export default function Header() {
     return (
         <header
             ref={headerRef}
-            className="sticky top-0 z-[1000] bg-midnight-dark text-white p-6 border-b border-midnight-light flex h-18 items-center"
+            className="sticky top-0 z-[1000] bg-midnight-dark/80 text-white p-6 border-b border-midnight-light flex h-18 items-center"
             style={{ transform: `translateY(-${headerOffset}px)` }}
         >
             <div className="relative inline-block cursor-pointer group">
@@ -60,7 +60,7 @@ export default function Header() {
                     {/* Sliding Panel (click-revealed) */}
                     <div className="absolute right-0 top-1/2 -translate-y-1/2 h-10 flex items-center">
                         <div className={`overflow-hidden h-full transition-all duration-350 ease-out ${menuOpen ? "w-[240px]" : "w-0"}`}>
-                            <div className="bg-midnight-dark border border-white h-full flex items-center gap-10 px-5">
+                            <div className="bg-midnight-dark/80 border border-midnight-light h-full flex items-center gap-10 px-5">
                                 <div title="About" className="flex-shrink-0">
                                     <User className="hover:text-gray-400 cursor-pointer" strokeWidth={1.5} />
                                 </div>

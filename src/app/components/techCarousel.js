@@ -69,13 +69,7 @@ export default function TechCarousel() {
     const [paused, setPaused] = useState(false);
 
     return (
-        <div className="relative overflow-hidden mt-25 py-10">
-            {/* Left gradient overlay */}
-            <div className="pointer-events-none absolute left-0 top-0 h-full w-40 bg-gradient-to-r from-midnight-dark to-transparent z-10"></div>
-
-            {/* Right gradient overlay */}
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-40 bg-gradient-to-l from-midnight-dark to-transparent z-10"></div>
-
+        <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden mt-25 py-10">
             {/* Infinite marquee container */}
             <div className={`marquee flex gap-24 relative ${paused ? "pause" : ""}`}>
                 {/* Lägg loggorna två gånger för seamless loop */}

@@ -81,7 +81,7 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
                     setCarouselPaused?.(false);
                 }}
             >
-                <div className="relative z-10 p-3 w-full bg-midnight-dark text-gray-300 border border-white space-grotesk">
+                <div className="relative z-10 p-3 w-full bg-midnight-dark text-gray-300 border border-midnight-light space-grotesk">
                     <p className="font-bold">{name}</p>
                     <p className="text-sm mt-1">{description}</p>
                     <a
@@ -92,11 +92,6 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
                                    hover:text-pink-400 relative"
                     >
                         Learn more
-                        <span
-                            className="absolute left-0 -bottom-0.5 h-0.5 w-full bg-gradient-to-r from-sky-400 to-pink-400
-                                       opacity-60 rounded-full scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"
-                            aria-hidden="true"
-                        ></span>
                     </a>
                 </div>
             </div>

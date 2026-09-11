@@ -29,7 +29,7 @@ export default function Shader({
     fragmentShader,
     vertexShader = DEFAULT_VERTEX,
     uniforms: customUniforms = {},
-    className = "",
+    className = "absolute inset-0 -z-10",
 }) {
     const containerRef = useRef(null);
     const canvasRef = useRef(null);
@@ -91,6 +91,7 @@ export default function Shader({
 
         function animate(timestamp) {
             uniforms.uTime.value = (timestamp - startTime) / 1000;
+
             renderer.render(scene, camera);
             frameId = requestAnimationFrame(animate);
         }
@@ -110,7 +111,7 @@ export default function Shader({
     }, [fragmentShader, vertexShader, customUniforms]);
 
     return (
-        <div ref={containerRef} className={`absolute inset-0 -z-10 ${className}`}>
+        <div ref={containerRef} className={className}>
             <canvas ref={canvasRef} className="block h-full w-full" />
         </div>
     );

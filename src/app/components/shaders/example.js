@@ -43,8 +43,8 @@ export const exampleFragment = `
 
     float n = fbm(warp);
 
-    vec3 blue = vec3(0.145, 0.706, 0.941);  // #25b4f0
-    vec3 pink = vec3(0.894, 0.502, 0.596);  // #e48098
+    vec3 blue = vec3(0.063, 0.082, 0.110);  // #10151c
+    vec3 pink = vec3(0.141, 0.082, 0.114);  // #24151d
 
     float colorPhase = n * 2.2 + uScroll * 0.00025;
     float contrast = 0.5 + 0.5 * sin(colorPhase * 6.28318);

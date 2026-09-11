@@ -4,12 +4,10 @@ import Header from "./components/header.js";
 import Main from "./components/main.js";
 import About from "./components/about.js";
 import Shader from "./components/shader.js";
+import { exampleFragment } from "./components/shaders/example.js";
 
 export default function Home() {
 	return (
-		// Scrollable content
-
-
 		<div data-scroll-container className="max-h-screen overflow-y-auto
 					[&::-webkit-scrollbar]:w-3
 					[&::-webkit-scrollbar-thumb]:border-2
@@ -19,6 +17,7 @@ export default function Home() {
 					[&::-webkit-scrollbar-track]:bg-midnight
 					[&::-webkit-scrollbar-thumb]:bg-midnight-light
 					[&::-webkit-scrollbar-thumb]:rounded-full">
+			<Shader fragmentShader={exampleFragment} className="fixed inset-0 -z-10" />
 			<div className="box-border space-grotesk">
 				<Header />
 				<div className="relative isolate overflow-hidden">
