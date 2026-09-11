@@ -69,7 +69,7 @@ export default function TechCarousel() {
     const [paused, setPaused] = useState(false);
 
     return (
-        <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden mt-25 py-10">
+        <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden mt-40 py-10">
             {/* Infinite marquee container */}
             <div className={`marquee flex gap-24 relative ${paused ? "pause" : ""}`}>
                 {/* Lägg loggorna två gånger för seamless loop */}

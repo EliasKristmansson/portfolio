@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
-export default function TechIcon({ iconClass, name, description, link, setCarouselPaused }) {
+export default function TechIcon({ iconClass, name, description, link, setCarouselPaused, compact = false }) {
     const [hovered, setHovered] = useState(false);
     const [tooltipHovered, setTooltipHovered] = useState(false);
     const [bufferHovered, setBufferHovered] = useState(false);
@@ -106,7 +106,7 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
             onMouseLeave={handleMouseLeave}
             ref={iconRef}
         >
-            <i className={`${iconClass} text-white text-9xl cursor-pointer z-0`}></i>
+            <i className={`${iconClass} text-white/20 hover:text-white transition-colors duration-100 ${compact ? "text-6xl" : "text-9xl"} cursor-pointer z-0`}></i>
             {tooltip}
         </div>
     );

@@ -49,13 +49,13 @@ export default function Main() {
 
                 {/* Main Content */}
                 <div>
-                    <div className="text-8xl space-mono-bold">
+                    <div className="text-9xl space-mono-bold">
                         <span style={{ color: "#25b4f0" }}>Designer</span>
                         {"+"}
                         <span style={{ color: "#e48098" }}>Developer</span>
                     </div>
 
-                    <div className="text-6xl mt-8">
+                    <div className="text-7xl mt-8">
                         specializing in{" "}
                         <div className="relative inline-block group">
                             <span className="relative inline-block text-white transition-all duration-700 ease-in-out group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-sky-400 cursor-default group-hover:via-rose-400 group-hover:to-orange-400 group-hover:bg-[length:200%_100%] group-hover:animate-gradient-slide">
@@ -80,7 +80,7 @@ export default function Main() {
                     </div>
                 </div>
 
-                <TechCarousel />
+                {/*<TechCarousel />*/}
 
                 {/* Scroll Arrow */}
                 <a

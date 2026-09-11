@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, FileText, Folder, Monitor } from "lucide-react";
+import { ArrowDown, FileText, Folder, Minus, ScrollText, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import DesktopIcon from "./desktopIcon.js";
 
@@ -19,11 +19,18 @@ export default function About() {
     const selectionStartRef = useRef(null);
     const [selectedIconIds, setSelectedIconIds] = useState(new Set());
     const [selectionBox, setSelectionBox] = useState(null);
+    const [aboutWindowOpen, setAboutWindowOpen] = useState(true);
+    const [aboutWindowMinimized, setAboutWindowMinimized] = useState(false);
+    const [aboutWindowPosition, setAboutWindowPosition] = useState({ x: 180, y: 72 });
+    const [aboutWindowSize, setAboutWindowSize] = useState({ width: 544, height: 300 });
+    const windowDragRef = useRef(null);
+    const windowResizeRef = useRef(null);
+    const aboutWindowRef = useRef(null);
 
     const desktopIcons = [
-        { id: "monitor", icon: Monitor, label: "Om mig.exe", initialPosition: { x: 24, y: 24 } },
-        { id: "folder", icon: Folder, label: "Projekt", initialPosition: { x: 24, y: 140 } },
-        { id: "filetext", icon: FileText, label: "CV.pdf", initialPosition: { x: 24, y: 256 } },
+        { id: "filetext", icon: FileText, label: "About Me.txt", initialPosition: { x: 24, y: 24 } },
+        { id: "folder", icon: Folder, label: "Projects", initialPosition: { x: 24, y: 140 } },
+        { id: "scrolltext", icon: ScrollText, label: "CV.pdf", initialPosition: { x: 24, y: 256 } },
     ];
 
     const [clockTime, setClockTime] = useState(null);
@@ -88,6 +95,83 @@ export default function About() {
         setSelectionBox(null);
     };
 
+    const handleWindowDragStart = (event) => {
+        if (event.target.closest("button")) return;
+
+        const workspace = selectionAreaRef.current;
+        if (!workspace) return;
+        const bounds = workspace.getBoundingClientRect();
+        windowDragRef.current = {
+            pointerId: event.pointerId,
+            offsetX: event.clientX - bounds.left - aboutWindowPosition.x,
+            offsetY: event.clientY - bounds.top - aboutWindowPosition.y,
+        };
+        event.currentTarget.setPointerCapture(event.pointerId);
+    };
+
+    const handleWindowDrag = (event) => {
+        if (!windowDragRef.current || windowDragRef.current.pointerId !== event.pointerId) return;
+
+        const workspace = selectionAreaRef.current;
+        const windowElement = aboutWindowRef.current;
+        if (!workspace) return;
+        const bounds = workspace.getBoundingClientRect();
+        const nextX = event.clientX - bounds.left - windowDragRef.current.offsetX;
+        const nextY = event.clientY - bounds.top - windowDragRef.current.offsetY;
+        setAboutWindowPosition({
+            x: Math.max(0, Math.min(bounds.width - windowElement.offsetWidth, nextX)),
+            y: Math.max(0, Math.min(bounds.height - windowElement.offsetHeight, nextY)),
+        });
+    };
+
+    const handleWindowDragEnd = () => {
+        windowDragRef.current = null;
+    };
+
+    const handleWindowResizeStart = (event) => {
+        event.stopPropagation();
+        const windowElement = aboutWindowRef.current;
+        if (!windowElement) return;
+
+        windowResizeRef.current = {
+            pointerId: event.pointerId,
+            startX: event.clientX,
+            startY: event.clientY,
+            startWidth: windowElement.offsetWidth,
+            startHeight: windowElement.offsetHeight,
+        };
+        event.currentTarget.setPointerCapture(event.pointerId);
+    };
+
+    const handleWindowResize = (event) => {
+        const resizeState = windowResizeRef.current;
+        const workspace = selectionAreaRef.current;
+        if (!resizeState || resizeState.pointerId !== event.pointerId || !workspace) return;
+
+        const workspaceBounds = workspace.getBoundingClientRect();
+        const minimumWidth = 280;
+        const minimumHeight = 180;
+        setAboutWindowSize({
+            width: Math.max(
+                minimumWidth,
+                Math.min(resizeState.startWidth + event.clientX - resizeState.startX, workspaceBounds.right - workspaceBounds.left - aboutWindowPosition.x),
+            ),
+            height: Math.max(
+                minimumHeight,
+                Math.min(resizeState.startHeight + event.clientY - resizeState.startY, workspaceBounds.bottom - workspaceBounds.top - aboutWindowPosition.y),
+            ),
+        });
+    };
+
+    const handleWindowResizeEnd = () => {
+        windowResizeRef.current = null;
+    };
+
+    const openAboutWindow = () => {
+        setAboutWindowOpen(true);
+        setAboutWindowMinimized(false);
+    };
+
     return (
         <main
             id="about"
@@ -123,6 +207,77 @@ export default function About() {
                         onPointerUp={handleSelectionEnd}
                         onPointerCancel={handleSelectionEnd}
                     >
+                        {aboutWindowOpen && (
+                            <section
+                                ref={aboutWindowRef}
+                                aria-label="About information window"
+                                className={`absolute z-20 w-[min(34rem,calc(100%-2rem))] origin-bottom-left border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${aboutWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                style={{ left: aboutWindowPosition.x, top: aboutWindowPosition.y, width: aboutWindowSize.width, height: aboutWindowSize.height }}
+                            >
+                                <div
+                                    className="flex h-9 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
+                                    onPointerDown={handleWindowDragStart}
+                                    onPointerMove={handleWindowDrag}
+                                    onPointerUp={handleWindowDragEnd}
+                                    onPointerCancel={handleWindowDragEnd}
+                                >
+                                    <span className="text-xs text-white/80 space-mono-bold">About Me.txt</span>
+                                    <div className="flex items-center gap-1">
+                                        <button
+                                            type="button"
+                                            aria-label="Minimize About window"
+                                            className="flex h-7 w-7 items-center justify-center text-white/70 transition-colors hover:bg-[#25b4f0] hover:text-black"
+                                            onClick={() => setAboutWindowMinimized(true)}
+                                        >
+                                            <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            aria-label="Close About window"
+                                            className="flex h-7 w-7 items-center justify-center text-white/70 transition-colors hover:bg-[#e48098] hover:text-black"
+                                            onClick={() => {
+                                                setAboutWindowOpen(false);
+                                                setAboutWindowMinimized(false);
+                                            }}
+                                        >
+                                            <X aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {!aboutWindowMinimized && (
+                                    <div className="h-[calc(100%-2.25rem)] overflow-auto p-6 text-sm leading-relaxed text-white/80 space-grotesk">
+                                        <h2 className="mb-3 text-2xl text-white space-mono-bold">About me</h2>
+                                        <p>
+                                            I like to call myself an interaction designer, I design and build user interfaces that are interesting to both look at and use. Much of my work is focused on creativity and using every tool at my disposal to make something that both me, and the user, are happy with. While I much prefer front-end work because of the creative freedom, I have experience with back-end development as well.
+                                        </p>
+                                        <br/>
+                                        <p>
+                                            If there was one thing I'd like to improve on in my journey it'd probably be responsiveness and accessibility in my work. I tend to prioritize innovation and creativity which makes for (in my humble opinion) beautiful designs, but it's not always optimal for accessibility.
+                                        </p>
+                                        <br/>
+                                        <p>
+                                            You can find some of the programs, frameworks, and languages I am most proficient here! :)
+                                        </p>
+                                    </div>
+                                )}
+
+                                {!aboutWindowMinimized && (
+                                    <button
+                                        type="button"
+                                        aria-label="Resize About window"
+                                        className="absolute bottom-0 right-0 h-5 w-5 cursor-se-resize text-white/60 hover:text-white"
+                                        onPointerDown={handleWindowResizeStart}
+                                        onPointerMove={handleWindowResize}
+                                        onPointerUp={handleWindowResizeEnd}
+                                        onPointerCancel={handleWindowResizeEnd}
+                                    >
+                                        <span aria-hidden="true" className="absolute bottom-1 right-1 h-2 w-2 border-b border-r border-current" />
+                                    </button>
+                                )}
+                            </section>
+                        )}
+
                         {selectionBox && (
                             <div
                                 aria-hidden="true"
@@ -140,13 +295,16 @@ export default function About() {
                                 initialPosition={iconConfig.initialPosition}
                                 isSelected={selectedIconIds.has(iconConfig.id)}
                                 onSelect={(id) => setSelectedIconIds(new Set([id]))}
+                                onOpen={(id) => {
+                                    if (id === "filetext") openAboutWindow();
+                                }}
                                 containerRef={desktopRef}
                             />
                         ))}
                     </div>
 
                     {/* Taskbar */}
-                    <div className="flex h-10 flex-shrink-0 items-center justify-between border-t border-white/40 bg-midnight-dark/95 px-3">
+                    <div className="flex h-10 flex-shrink-0 items-center justify-start gap-2 border-t border-white/40 bg-midnight-dark/95 px-3">
                         <button
                             type="button"
                             className="flex items-center gap-2 border border-white/40 px-3 py-1 text-xs text-white transition-colors hover:bg-white hover:text-black space-mono-bold"
@@ -154,8 +312,19 @@ export default function About() {
                             <span className="h-2 w-2" style={{ backgroundColor: "#25b4f0" }} />
                             Start
                         </button>
+                        {(aboutWindowOpen || aboutWindowMinimized) && (
+                            <button
+                                type="button"
+                                aria-label="Open About window"
+                                onClick={openAboutWindow}
+                                className={`flex items-center gap-2 border px-3 py-1 text-xs transition-colors space-mono-bold ${aboutWindowOpen ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
+                            >
+                                <FileText aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
+                                About Me.txt
+                            </button>
+                        )}
                         {clockTime && (
-                            <span className="flex items-center gap-2 text-xs text-white/70 space-mono-bold">
+                            <span className="ml-auto flex items-center gap-2 text-xs text-white/70 space-mono-bold">
                                 <span className="h-1.5 w-1.5" style={{ backgroundColor: "#e48098" }} />
                                 {clockTime}
                             </span>
