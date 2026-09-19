@@ -2,7 +2,7 @@
 import { useState } from "react";
 import TechIcon from "./techIcon";
 
-const logos = [
+export const logos = [
     {
         className: "devicon-vscode-plain",
         alt: "VSCode",

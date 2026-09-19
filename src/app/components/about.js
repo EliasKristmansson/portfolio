@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowDown, FileText, Folder, Minus, ScrollText, X } from "lucide-react";
+import { ArrowDown, Blocks, FileText, Folder, Minus, ScrollText, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import DesktopIcon from "./desktopIcon.js";
+import { logos } from "./techCarousel.js";
 
 const hexToRgb = (hex) => {
     const value = hex.replace("#", "");
@@ -26,9 +27,15 @@ export default function About() {
     const windowDragRef = useRef(null);
     const windowResizeRef = useRef(null);
     const aboutWindowRef = useRef(null);
+    const [expertiseWindowOpen, setExpertiseWindowOpen] = useState(false);
+    const [expertiseWindowMinimized, setExpertiseWindowMinimized] = useState(false);
+    const [expertiseWindowPosition, setExpertiseWindowPosition] = useState({ x: 220, y: 80 });
+    const expertiseWindowDragRef = useRef(null);
+    const expertiseWindowRef = useRef(null);
 
     const desktopIcons = [
         { id: "filetext", icon: FileText, label: "About Me.txt", initialPosition: { x: 24, y: 24 } },
+        { id: "expertise", icon: Blocks, label: "Expertise", initialPosition: { x: 24, y: 372 } },
         { id: "folder", icon: Folder, label: "Projects", initialPosition: { x: 24, y: 140 } },
         { id: "scrolltext", icon: ScrollText, label: "CV.pdf", initialPosition: { x: 24, y: 256 } },
     ];
@@ -172,6 +179,44 @@ export default function About() {
         setAboutWindowMinimized(false);
     };
 
+    const openExpertiseWindow = () => {
+        setExpertiseWindowOpen(true);
+        setExpertiseWindowMinimized(false);
+    };
+
+    const handleExpertiseWindowDragStart = (event) => {
+        if (event.target.closest("button")) return;
+
+        const workspace = selectionAreaRef.current;
+        if (!workspace) return;
+        const bounds = workspace.getBoundingClientRect();
+        expertiseWindowDragRef.current = {
+            pointerId: event.pointerId,
+            offsetX: event.clientX - bounds.left - expertiseWindowPosition.x,
+            offsetY: event.clientY - bounds.top - expertiseWindowPosition.y,
+        };
+        event.currentTarget.setPointerCapture(event.pointerId);
+    };
+
+    const handleExpertiseWindowDrag = (event) => {
+        if (!expertiseWindowDragRef.current || expertiseWindowDragRef.current.pointerId !== event.pointerId) return;
+
+        const workspace = selectionAreaRef.current;
+        const windowElement = expertiseWindowRef.current;
+        if (!workspace || !windowElement) return;
+        const bounds = workspace.getBoundingClientRect();
+        const nextX = event.clientX - bounds.left - expertiseWindowDragRef.current.offsetX;
+        const nextY = event.clientY - bounds.top - expertiseWindowDragRef.current.offsetY;
+        setExpertiseWindowPosition({
+            x: Math.max(0, Math.min(bounds.width - windowElement.offsetWidth, nextX)),
+            y: Math.max(0, Math.min(bounds.height - windowElement.offsetHeight, nextY)),
+        });
+    };
+
+    const handleExpertiseWindowDragEnd = () => {
+        expertiseWindowDragRef.current = null;
+    };
+
     return (
         <main
             id="about"
@@ -226,7 +271,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Minimize About window"
-                                            className="flex h-7 w-7 items-center justify-center text-white/70 transition-colors hover:bg-[#25b4f0] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors hover:bg-[#25b4f0] hover:text-black"
                                             onClick={() => setAboutWindowMinimized(true)}
                                         >
                                             <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -234,7 +279,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Close About window"
-                                            className="flex h-7 w-7 items-center justify-center text-white/70 transition-colors hover:bg-[#e48098] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors hover:bg-[#e48098] hover:text-black"
                                             onClick={() => {
                                                 setAboutWindowOpen(false);
                                                 setAboutWindowMinimized(false);
@@ -278,6 +323,63 @@ export default function About() {
                             </section>
                         )}
 
+                        {expertiseWindowOpen && (
+                            <section
+                                ref={expertiseWindowRef}
+                                aria-label="Expertise folder"
+                                className={`absolute z-30 w-[min(38rem,calc(100%-2rem))] border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${expertiseWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                style={{ left: expertiseWindowPosition.x, top: expertiseWindowPosition.y }}
+                            >
+                                <div
+                                    className="flex h-9 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
+                                    onPointerDown={handleExpertiseWindowDragStart}
+                                    onPointerMove={handleExpertiseWindowDrag}
+                                    onPointerUp={handleExpertiseWindowDragEnd}
+                                    onPointerCancel={handleExpertiseWindowDragEnd}
+                                >
+                                    <span className="text-xs text-white/80 space-mono-bold">Expertise</span>
+                                    <div className="flex items-center gap-1">
+                                        <button
+                                            type="button"
+                                            aria-label="Minimize Expertise folder"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors hover:bg-[#25b4f0] hover:text-black"
+                                            onClick={() => setExpertiseWindowMinimized(true)}
+                                        >
+                                            <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            aria-label="Close Expertise folder"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors hover:bg-[#e48098] hover:text-black"
+                                            onClick={() => {
+                                                setExpertiseWindowOpen(false);
+                                                setExpertiseWindowMinimized(false);
+                                            }}
+                                        >
+                                            <X aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {!expertiseWindowMinimized && (
+                                    <div className="grid max-h-[23rem] grid-cols-3 gap-3 overflow-auto p-5 sm:grid-cols-4">
+                                        {logos.map((logo) => (
+                                            <button
+                                                key={logo.alt}
+                                                type="button"
+                                                title={`Open ${logo.alt} resource`}
+                                                className="flex min-h-24 cursor-pointer flex-col items-center justify-center gap-2 border border-transparent p-2 text-center transition-colors hover:border-[#25b4f0] hover:bg-white/10"
+                                                onDoubleClick={() => window.open(logo.link, "_blank", "noopener,noreferrer")}
+                                            >
+                                                <i aria-hidden="true" className={`${logo.className} text-4xl text-white/80`} />
+                                                <span className="text-xs text-white/80 space-mono-bold">{logo.alt}</span>
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
+                            </section>
+                        )}
+
                         {selectionBox && (
                             <div
                                 aria-hidden="true"
@@ -297,6 +399,7 @@ export default function About() {
                                 onSelect={(id) => setSelectedIconIds(new Set([id]))}
                                 onOpen={(id) => {
                                     if (id === "filetext") openAboutWindow();
+                                    if (id === "expertise") openExpertiseWindow();
                                 }}
                                 containerRef={desktopRef}
                             />
@@ -307,7 +410,7 @@ export default function About() {
                     <div className="flex h-10 flex-shrink-0 items-center justify-start gap-2 border-t border-white/40 bg-midnight-dark/95 px-3">
                         <button
                             type="button"
-                            className="flex items-center gap-2 border border-white/40 px-3 py-1 text-xs text-white transition-colors hover:bg-white hover:text-black space-mono-bold"
+                            className="flex cursor-pointer items-center gap-2 border border-white/40 px-3 py-1 text-xs text-white transition-colors hover:bg-white hover:text-black space-mono-bold"
                         >
                             <span className="h-2 w-2" style={{ backgroundColor: "#25b4f0" }} />
                             Start
@@ -317,10 +420,21 @@ export default function About() {
                                 type="button"
                                 aria-label="Open About window"
                                 onClick={openAboutWindow}
-                                className={`flex items-center gap-2 border px-3 py-1 text-xs transition-colors space-mono-bold ${aboutWindowOpen ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
+                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors space-mono-bold ${aboutWindowOpen ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
                             >
                                 <FileText aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
                                 About Me.txt
+                            </button>
+                        )}
+                        {(expertiseWindowOpen || expertiseWindowMinimized) && (
+                            <button
+                                type="button"
+                                aria-label="Open Expertise folder"
+                                onClick={openExpertiseWindow}
+                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors space-mono-bold ${expertiseWindowOpen ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
+                            >
+                                <Blocks aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
+                                Expertise
                             </button>
                         )}
                         {clockTime && (
