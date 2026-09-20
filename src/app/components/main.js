@@ -49,7 +49,10 @@ export default function Main() {
 
                 {/* Main Content */}
                 <div>
-                    <div className="text-9xl space-mono-bold">
+                    <div
+                        className="text-9xl space-mono-bold"
+                        style={{ textShadow: "0 0 50px rgba(0, 0, 0, 1)" }}
+                    >
                         <span style={{ color: "#25b4f0" }}>Designer</span>
                         {"+"}
                         <span style={{ color: "#e48098" }}>Developer</span>
