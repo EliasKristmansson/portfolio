@@ -50,9 +50,16 @@ export default function Header() {
             className="sticky top-0 z-[1000] bg-midnight-dark/80 text-white p-6 border-b border-midnight-light flex h-18 items-center"
             style={{ transform: `translateY(-${headerOffset}px)` }}
         >
-            <div className="relative inline-block cursor-pointer group">
-                Elias Kristmansson
-                <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-white transition-all group-hover:w-full"></span>
+            <div className="relative flex items-center gap-3 cursor-pointer group">
+                <img
+                    src="/images/outlinewhitethin.svg"
+                    alt="Elias Kristmansson logo"
+                    className="h-10 w-10 object-contain shrink-0"
+                />
+                <div className="relative inline-block">
+                    Elias Kristmansson
+                    <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-white transition-all group-hover:w-full"></span>
+                </div>
             </div>
 
             <div className="flex text-base ml-auto items-center">

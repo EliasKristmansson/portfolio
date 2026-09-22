@@ -3,6 +3,11 @@ import "./globals.css";
 export const metadata = {
     title: "Elias Kristmansson",
     description: "Designing and building interesting, intuitive, and engaging interfaces.",
+    icons: {
+        icon: "/images/favicon.svg",
+        shortcut: "/images/favicon.svg",
+        apple: "/images/favicon.svg",
+    },
     openGraph: {
         title: "My Portfolio",
     },

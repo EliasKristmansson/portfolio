@@ -54,7 +54,7 @@ export default function Main() {
                         style={{ textShadow: "0 0 50px rgba(0, 0, 0, 1)" }}
                     >
                         <span style={{ color: "#25b4f0" }}>Designer</span>
-                        {"+"}
+                        <span style={{ color: "#fb923c"}}>+</span>
                         <span style={{ color: "#e48098" }}>Developer</span>
                     </div>
 
