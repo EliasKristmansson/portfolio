@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, Blocks, FileText, Folder, Minus, ScrollText, X } from "lucide-react";
+import { ArrowDown, Blocks, FileImage, FileText, Folder, Minus, ScrollText, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import DesktopIcon from "./desktopIcon.js";
 import { logos } from "./techCarousel.js";
@@ -32,6 +32,22 @@ export default function About() {
     const [expertiseWindowPosition, setExpertiseWindowPosition] = useState({ x: 220, y: 80 });
     const expertiseWindowDragRef = useRef(null);
     const expertiseWindowRef = useRef(null);
+    const [projectsWindowOpen, setProjectsWindowOpen] = useState(false);
+    const [projectsWindowMinimized, setProjectsWindowMinimized] = useState(false);
+    const [projectsWindowPosition, setProjectsWindowPosition] = useState({ x: 120, y: 48 });
+    const [selectedProject, setSelectedProject] = useState("Project_01");
+    const projectsWindowDragRef = useRef(null);
+    const projectsWindowRef = useRef(null);
+
+    const projects = [
+        { id: "Project_01", accent: "#25b4f0" },
+        { id: "Project_02", accent: "#e48098" },
+        { id: "Project_03", accent: "#fb923c" },
+        { id: "Project_04", accent: "#25b4f0" },
+        { id: "Project_05", accent: "#e48098" },
+        { id: "Project_06", accent: "#fb923c" },
+    ];
+    const activeProject = projects.find((project) => project.id === selectedProject) ?? projects[0];
 
     const desktopIcons = [
         { id: "filetext", icon: FileText, label: "About Me.txt", initialPosition: { x: 24, y: 24 } },
@@ -184,6 +200,53 @@ export default function About() {
         setExpertiseWindowMinimized(false);
     };
 
+    const openProjectsWindow = () => {
+        const bounds = selectionAreaRef.current?.getBoundingClientRect();
+        if (bounds) {
+            const windowWidth = Math.min(928, bounds.width - 32);
+            setProjectsWindowPosition({
+                x: Math.max(16, (bounds.width - windowWidth) / 2),
+                y: 16,
+            });
+        }
+        setProjectsWindowOpen(true);
+        setProjectsWindowMinimized(false);
+        setSelectedProject((currentProject) => currentProject ?? "Project_01");
+    };
+
+    const handleProjectsWindowDragStart = (event) => {
+        if (event.target.closest("button")) return;
+
+        const workspace = selectionAreaRef.current;
+        if (!workspace) return;
+        const bounds = workspace.getBoundingClientRect();
+        projectsWindowDragRef.current = {
+            pointerId: event.pointerId,
+            offsetX: event.clientX - bounds.left - projectsWindowPosition.x,
+            offsetY: event.clientY - bounds.top - projectsWindowPosition.y,
+        };
+        event.currentTarget.setPointerCapture(event.pointerId);
+    };
+
+    const handleProjectsWindowDrag = (event) => {
+        if (!projectsWindowDragRef.current || projectsWindowDragRef.current.pointerId !== event.pointerId) return;
+
+        const workspace = selectionAreaRef.current;
+        const windowElement = projectsWindowRef.current;
+        if (!workspace || !windowElement) return;
+        const bounds = workspace.getBoundingClientRect();
+        const nextX = event.clientX - bounds.left - projectsWindowDragRef.current.offsetX;
+        const nextY = event.clientY - bounds.top - projectsWindowDragRef.current.offsetY;
+        setProjectsWindowPosition({
+            x: Math.max(0, Math.min(bounds.width - windowElement.offsetWidth, nextX)),
+            y: Math.max(0, Math.min(bounds.height - windowElement.offsetHeight, nextY)),
+        });
+    };
+
+    const handleProjectsWindowDragEnd = () => {
+        projectsWindowDragRef.current = null;
+    };
+
     const handleExpertiseWindowDragStart = (event) => {
         if (event.target.closest("button")) return;
 
@@ -331,6 +394,111 @@ export default function About() {
                             </section>
                         )}
 
+                        {projectsWindowOpen && (
+                            <section
+                                ref={projectsWindowRef}
+                                aria-label="Projects folder"
+                                className={`absolute z-30 flex max-h-[calc(100%-2rem)] w-[min(58rem,calc(100%-2rem))] flex-col overflow-hidden border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${projectsWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                style={{ left: projectsWindowPosition.x, top: projectsWindowPosition.y }}
+                            >
+                                <div
+                                    className="flex h-9 shrink-0 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
+                                    onPointerDown={handleProjectsWindowDragStart}
+                                    onPointerMove={handleProjectsWindowDrag}
+                                    onPointerUp={handleProjectsWindowDragEnd}
+                                    onPointerCancel={handleProjectsWindowDragEnd}
+                                >
+                                    <span className="truncate text-xs text-white/80 space-mono-bold">Projects.exe</span>
+                                    <div className="flex items-center gap-1">
+                                        <button
+                                            type="button"
+                                            aria-label="Minimize Projects window"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#25b4f0] hover:text-black"
+                                            onClick={() => setProjectsWindowMinimized(true)}
+                                        >
+                                            <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+                                        </button>
+                                        <button
+                                            type="button"
+                                            aria-label="Close Projects window"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#e48098] hover:text-black"
+                                            onClick={() => {
+                                                setProjectsWindowOpen(false);
+                                                setProjectsWindowMinimized(false);
+                                                setSelectedProject(null);
+                                            }}
+                                        >
+                                            <X aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto sm:min-h-[25rem] sm:grid-cols-[13rem_minmax(0,1fr)]">
+                                    <aside className="border-b border-white/15 bg-white/[0.02] p-3 sm:border-b-0 sm:border-r">
+                                        <div className="flex gap-1 overflow-x-auto sm:flex-col sm:overflow-visible">
+                                            {projects.map((project, index) => (
+                                                <button
+                                                    key={project.id}
+                                                    type="button"
+                                                    aria-pressed={selectedProject === project.id}
+                                                    className={`flex min-w-36 flex-1 cursor-pointer items-center gap-2 border px-2 py-3 text-left transition-colors sm:min-w-0 ${selectedProject === project.id ? "border-white/40 bg-white/10 text-white" : "border-transparent text-white/60 hover:border-white/20 hover:bg-white/5 hover:text-white"}`}
+                                                    onClick={() => setSelectedProject(project.id)}
+                                                >
+                                                    <span className="text-[10px] text-white/40 space-mono-regular">0{index + 1}</span>
+                                                    <Folder aria-hidden="true" className="h-4 w-4 shrink-0 text-white/80" strokeWidth={1.5} />
+                                                    <span className="truncate text-xs space-mono-regular">{project.id}</span>
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </aside>
+
+                                    <div className="min-w-0 p-4 sm:p-5">
+                                        <div className="mb-3 flex items-center justify-between gap-3">
+                                            <div className="min-w-0">
+                                                <p className="text-[10px] tracking-wide text-white/40 space-mono-bold">Selected Project</p>
+                                                <h2 className="mt-1 truncate text-lg text-white space-mono-bold">{activeProject.id}</h2>
+                                            </div>
+                                            <span className="shrink-0 border border-white/20 px-2 py-1 text-[10px] text-white/50 space-mono-regular">CASE STUDY</span>
+                                        </div>
+
+                                        <div
+                                            className="relative flex aspect-[16/7] min-h-36 items-center justify-center overflow-hidden border border-white/20 bg-[#111216]"
+                                            style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px)", backgroundSize: "18px 18px" }}
+                                        >
+                                            <div className="absolute inset-x-0 top-0 flex h-7 items-center gap-1.5 border-b border-white/10 bg-black/30 px-3">
+                                                <span className="h-2 w-2 border" style={{ borderColor: activeProject.accent }} />
+                                                <span className="h-2 w-2 border border-white/30" />
+                                                <span className="h-2 w-2 border border-white/30" />
+                                            </div>
+                                            <div className="flex items-center gap-4 px-4 pt-7">
+                                                <div className="flex h-16 w-16 shrink-0 items-center justify-center border" style={{ borderColor: `${activeProject.accent}80`, color: activeProject.accent }}>
+                                                    <span className="text-3xl space-mono-bold">{activeProject.id.slice(-2)}</span>
+                                                </div>
+                                                <div>
+                                                    <div className="mb-2 h-2 w-24 max-w-full bg-white/60" />
+                                                    <div className="mb-1.5 h-1 w-32 max-w-full bg-white/20" />
+                                                    <div className="h-1 w-20 max-w-full bg-white/20" />
+                                                    <p className="mt-3 text-[10px] text-white/45 space-mono-regular">Add project image here</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/65 space-grotesk">
+                                            Project overview, goals, and process notes will be added here.
+                                        </p>
+                                        <div className="mt-4 flex flex-wrap gap-2 border-t border-white/10 pt-3">
+                                            {[[FileText, "Project_Notes.txt", "Text"], [FileImage, "Project_Preview.png", "Image"]].map(([FileIcon, fileName, fileType]) => (
+                                                <div key={fileName} className="flex items-center gap-2 border border-white/15 px-2.5 py-1.5 text-xs text-white/65">
+                                                    <FileIcon aria-hidden="true" className="h-3.5 w-3.5 text-white/50" strokeWidth={1.5} />
+                                                    <span className="space-grotesk">{fileName}</span>
+                                                    <span className="text-white/35 space-mono-regular">{fileType}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        )}
+
                         {expertiseWindowOpen && (
                             <section
                                 ref={expertiseWindowRef}
@@ -406,6 +574,7 @@ export default function About() {
                                 isSelected={selectedIconIds.has(iconConfig.id)}
                                 onSelect={(id) => setSelectedIconIds(new Set([id]))}
                                 onClick={(id) => {
+                                    if (id === "folder") openProjectsWindow();
                                     if (id === "scrolltext") {
                                         window.open("/pdfs/CV%20Elias%20Kristmansson.pdf", "_blank", "noopener,noreferrer");
                                     }
@@ -413,6 +582,7 @@ export default function About() {
                                 onOpen={(id) => {
                                     if (id === "filetext") openAboutWindow();
                                     if (id === "expertise") openExpertiseWindow();
+                                    if (id === "folder") openProjectsWindow();
                                 }}
                                 containerRef={desktopRef}
                             />
@@ -448,6 +618,17 @@ export default function About() {
                             >
                                 <Blocks aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
                                 Expertise
+                            </button>
+                        )}
+                        {(projectsWindowOpen || projectsWindowMinimized) && (
+                            <button
+                                type="button"
+                                aria-label="Open Projects window"
+                                onClick={openProjectsWindow}
+                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${projectsWindowOpen && !projectsWindowMinimized ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
+                            >
+                                <Folder aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
+                                Projects
                             </button>
                         )}
                         {clockTime && (

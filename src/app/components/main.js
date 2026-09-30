@@ -37,7 +37,7 @@ export default function Main() {
                     {/* Tagline */}
                     <div className="inline-block">
                         <div className="mt-10 mb-8 h-[1.5px] bg-white/40" />
-                        <p className="dm-sans text-2xl leading-snug text-white tracking-wide">
+                            <p className="space-grotesk text-2xl leading-snug text-white tracking-wide">
                             <span className="relative z-10">
                                 "Designing and building
                                 <span className="text-white font-medium"> interesting</span>,
