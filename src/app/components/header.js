@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { User, Layers, Mail, Menu, X } from "lucide-react";
+import Image from "next/image";
+import { ChevronDown } from "lucide-react";
 
 export default function Header() {
     const headerHeight = 72;
     const revealBuffer = 24;
-    const [menuOpen, setMenuOpen] = useState(false);
     const [headerOffset, setHeaderOffset] = useState(0);
+    const [profileOpen, setProfileOpen] = useState(false);
     const headerRef = useRef(null);
 
     useEffect(() => {
@@ -47,7 +48,7 @@ export default function Header() {
     return (
         <header
             ref={headerRef}
-            className="sticky top-0 z-[1000] bg-midnight-dark/80 text-white p-6 border-b border-midnight-light flex h-18 items-center"
+            className="sticky top-0 z-[1000] bg-midnight-dark/80 text-white p-6 border-b border-midnight-light flex h-18 items-center justify-between"
             style={{ transform: `translateY(-${headerOffset}px)` }}
         >
             <div className="relative flex items-center gap-3 cursor-pointer group">
@@ -61,55 +62,42 @@ export default function Header() {
                     <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-white transition-all group-hover:w-full"></span>
                 </div>
             </div>
-
-            <div className="flex text-base ml-auto items-center">
-                <div className="relative flex items-center">
-                    {/* Sliding Panel (click-revealed) */}
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 h-10 flex items-center">
-                        <div className={`overflow-hidden h-full transition-all duration-350 ease-out ${menuOpen ? "w-[240px]" : "w-0"}`}>
-                            <div className="bg-midnight-dark/80 border border-midnight-light h-full flex items-center gap-10 px-5">
-                                <div title="About" className="flex-shrink-0">
-                                    <User className="hover:text-gray-400 cursor-pointer" strokeWidth={1.5} />
-                                </div>
-                                <div title="Projects" className="flex-shrink-0">
-                                    <Layers className="hover:text-gray-400 cursor-pointer" strokeWidth={1.5} />
-                                </div>
-                                <div title="Contact" className="flex-shrink-0">
-                                    <Mail className="hover:text-gray-400 cursor-pointer" strokeWidth={1.5} />
-                                </div>
-                            </div>
+            <div className="relative">
+                <button
+                    type="button"
+                    aria-label={profileOpen ? "Close profile photo" : "Open profile photo"}
+                    aria-expanded={profileOpen}
+                    aria-controls="header-profile-photo"
+                    onClick={() => setProfileOpen((open) => !open)}
+                    className="flex h-10 w-10 cursor-pointer items-center justify-center border border-white/60 text-white/80 transition-colors hover:bg-white hover:text-black"
+                >
+                    <ChevronDown
+                        aria-hidden="true"
+                        className={`h-5 w-5 transition-transform duration-300 ${profileOpen ? "rotate-180" : "rotate-0"}`}
+                        strokeWidth={1.5}
+                    />
+                </button>
+                <div
+                    id="header-profile-photo"
+                    aria-hidden={!profileOpen}
+                    className={`absolute right-0 top-full z-20 w-48 origin-top overflow-hidden border border-white/70 bg-midnight-dark shadow-2xl transition-[opacity,transform,visibility] duration-300 ${profileOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0 pointer-events-none"}`}
+                >
+                    <div className="flex h-7 items-center justify-between border-b border-midnight-light bg-midnight-dark/95 px-3">
+                        <span className="space-mono-bold text-[11px] tracking-wide text-white/70">thats_me.png</span>
+                        <div aria-hidden="true" className="flex gap-1.5">
+                            <span className="h-2.5 w-2.5 border border-[#e48098]" />
+                            <span className="h-2.5 w-2.5 border border-[#25b4f0]" />
+                            <span className="h-2.5 w-2.5 border border-white/50" />
                         </div>
                     </div>
-
-                    {/* Menu Button (click toggles panel) */}
-                    <div
-                        onClick={() => setMenuOpen(prev => !prev)}
-                        className={`w-10 h-10 z-10 border-white border flex items-center justify-center cursor-pointer transition-colors
-    ${menuOpen ? "bg-white text-black" : "bg-midnight-dark text-white hover:bg-white hover:text-black"}`}
-                        aria-label="Toggle menu"
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={e => { if (e.key === "Enter" || e.key === " ") setMenuOpen(prev => !prev) }}
-                    >
-                        {/* Menu Icon */}
-                        <Menu
-                            className="absolute w-5 h-5 transition-all duration-300 ease-in-out"
-                            strokeWidth={1.5}
-                            style={{
-                                opacity: menuOpen ? 0 : 1,
-                                transform: menuOpen ? "scale(0.6)" : "scale(1)",
-                                pointerEvents: menuOpen ? "none" : "auto",
-                            }}
-                        />
-                        {/* X Icon */}
-                        <X
-                            className="absolute w-5 h-5 transition-all duration-300 ease-in-out"
-                            strokeWidth={1.5}
-                            style={{
-                                opacity: menuOpen ? 1 : 0,
-                                transform: menuOpen ? "scale(1)" : "scale(0.6)",
-                                pointerEvents: menuOpen ? "auto" : "none",
-                            }}
+                    <div className="relative aspect-square w-full bg-midnight-dark">
+                        <Image
+                            src="/images/headshot2.png"
+                            alt="Portrait of Elias Kristmansson"
+                            className="object-cover"
+                            sizes="192px"
+                            priority
+                            fill
                         />
                     </div>
                 </div>

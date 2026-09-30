@@ -1,6 +1,5 @@
 "use client";
 import { ArrowDown } from "lucide-react";
-import Image from "next/image";
 import TechCarousel from "./techCarousel";
 
 
@@ -13,40 +12,6 @@ export default function Main() {
             }}
         >
             <div className="p-20 w-full h-full">
-                {/* Floating image CTA top-right */}
-                <a href="#about">
-                    <div className="absolute top-6 right-6 group cursor-pointer">
-                        <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden transition-transform duration-300 hover:scale-105">
-
-                            {/* Subtle gradient glow */}
-                            <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-[#25b4f0]/40 to-[#e48098]/40 blur-md opacity-20 group-hover:opacity-40 transition-opacity z-0"></div>
-
-                            {/* White outline ring */}
-                            <div className="absolute inset-0 rounded-full border border-white z-10 pointer-events-none" />
-
-                            {/* Image itself */}
-                            <div className="relative w-full h-full rounded-full overflow-hidden shadow-lg z-9">
-                                <Image
-                                    src="/images/headshot2.png"
-                                    alt="Headshot"
-                                    className="object-cover w-full h-full"
-                                    quality={100}
-                                    sizes="(min-width: 768px) 112px, 96px"
-                                    priority
-                                    fill
-                                />
-                            </div>
-                        </div>
-
-                        {/* Caption on hover */}
-                        <div className="absolute top-full w-full mt-2 text-center dm-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm text-gray-400">
-                            That's me 👋
-                        </div>
-                    </div>
-                </a>
-
-
-
                 {/* Main Content */}
                 <div>
                     <div
@@ -54,7 +19,7 @@ export default function Main() {
                         style={{ textShadow: "0 0 50px rgba(0, 0, 0, 1)" }}
                     >
                         <span style={{ color: "#25b4f0" }}>Designer</span>
-                        <span style={{ color: "#fb923c"}}>+</span>
+                        <span style={{ color: "#fb923c" }}>+</span>
                         <span style={{ color: "#e48098" }}>Developer</span>
                     </div>
 
@@ -71,7 +36,7 @@ export default function Main() {
 
                     {/* Tagline */}
                     <div className="inline-block">
-                        <div className="mt-10 mb-8 h-[1.5px] bg-midnight-light" />
+                        <div className="mt-10 mb-8 h-[1.5px] bg-white/40" />
                         <p className="dm-sans text-2xl leading-snug text-white tracking-wide">
                             <span className="relative z-10">
                                 "Designing and building

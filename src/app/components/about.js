@@ -302,7 +302,15 @@ export default function About() {
                                         </p>
                                         <br/>
                                         <p>
-                                            You can find some of the programs, frameworks, and languages I am most proficient here! :)
+                                            You can find some of the programs, frameworks, and languages I am most proficient{" "}
+                                            <button
+                                                type="button"
+                                                className="cursor-pointer underline decoration-white/60 underline-offset-2 hover:text-white"
+                                                onClick={openExpertiseWindow}
+                                            >
+                                                here
+                                            </button>
+                                            ! :)
                                         </p>
                                     </div>
                                 )}
