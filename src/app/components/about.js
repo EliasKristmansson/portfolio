@@ -1,9 +1,71 @@
 "use client";
 
-import { ArrowDown, Blocks, FileImage, FileText, Folder, Minus, ScrollText, X } from "lucide-react";
+import { ArrowDown, Blocks, FileText, Folder, Minus, ScrollText, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import DesktopIcon from "./desktopIcon.js";
 import { logos } from "./techCarousel.js";
+
+const PROJECTS = [
+    {
+        id: "project-01",
+        name: "Songfrontation",
+        badge: "MOBILE GAME",
+        color: "#4a55a7",
+        description: "Music quiz application made using React Native and Expo. The quiz pits two users against each other in a battle of music knowledge. The app, uniquely, plays on one device with the screen divided in the middle, streamlining the experience for the player.",
+        images: [
+            { src: "/projects/project-01/songfrontation.png", alt: "Songfrontation front screen" },
+            { src: "/projects/project-01/songfrontation2.png", alt: "Songfrontation match settings" },
+            { src: "/projects/project-01/songfrontation3.png", alt: "Songfrontation game settings" },
+        ],
+    },
+    {
+        id: "project-02",
+        name: "Explora",
+        badge: "WELLTECH APP",
+        color: "#fff0cf",
+        previewMode: "portrait",
+        description: "Welltech app made using React Native and Expo. The app is a prototype of a social media aimed at employees of companies. The idea is that, once a day, the user is presented with a text prompt which feeling they have to capture in a picture. This picture can then be shared in dynamic groups across the company.",
+        images: [
+            { src: "/projects/project-02/explora.png", alt: "Explora login screen" },
+            { src: "/projects/project-02/explora3.png", alt: "Explora front page" },
+            { src: "/projects/project-02/explora2.png", alt: "Explora camera" },
+            { src: "/projects/project-02/explora4.png", alt: "Explora gallery page" },
+            { src: "/projects/project-02/explora5.png", alt: "Explora profile page" },
+        ],
+    },
+    {
+        id: "project-03",
+        name: "Project_03",
+        badge: "CASE STUDY",
+        color: "#fb923c",
+        description: "Project overview, goals, and process notes will be added here.",
+        images: [],
+    },
+    {
+        id: "project-04",
+        name: "Project_04",
+        badge: "CASE STUDY",
+        color: "#25b4f0",
+        description: "Project overview, goals, and process notes will be added here.",
+        images: [],
+    },
+    {
+        id: "project-05",
+        name: "Project_05",
+        badge: "CASE STUDY",
+        color: "#e48098",
+        description: "Project overview, goals, and process notes will be added here.",
+        images: [],
+    },
+    {
+        id: "project-06",
+        name: "Project_06",
+        badge: "CASE STUDY",
+        color: "#fb923c",
+        description: "Project overview, goals, and process notes will be added here.",
+        images: [],
+    },
+];
 
 const hexToRgb = (hex) => {
     const value = hex.replace("#", "");
@@ -35,19 +97,13 @@ export default function About() {
     const [projectsWindowOpen, setProjectsWindowOpen] = useState(false);
     const [projectsWindowMinimized, setProjectsWindowMinimized] = useState(false);
     const [projectsWindowPosition, setProjectsWindowPosition] = useState({ x: 120, y: 48 });
-    const [selectedProject, setSelectedProject] = useState("Project_01");
+    const [selectedProject, setSelectedProject] = useState("project-01");
+    const [selectedProjectImage, setSelectedProjectImage] = useState(0);
     const projectsWindowDragRef = useRef(null);
     const projectsWindowRef = useRef(null);
 
-    const projects = [
-        { id: "Project_01", accent: "#25b4f0" },
-        { id: "Project_02", accent: "#e48098" },
-        { id: "Project_03", accent: "#fb923c" },
-        { id: "Project_04", accent: "#25b4f0" },
-        { id: "Project_05", accent: "#e48098" },
-        { id: "Project_06", accent: "#fb923c" },
-    ];
-    const activeProject = projects.find((project) => project.id === selectedProject) ?? projects[0];
+    const activeProject = PROJECTS.find((project) => project.id === selectedProject) ?? PROJECTS[0];
+    const activeProjectImage = activeProject.images[selectedProjectImage] ?? activeProject.images[0];
 
     const desktopIcons = [
         { id: "filetext", icon: FileText, label: "About Me.txt", initialPosition: { x: 24, y: 24 } },
@@ -211,7 +267,7 @@ export default function About() {
         }
         setProjectsWindowOpen(true);
         setProjectsWindowMinimized(false);
-        setSelectedProject((currentProject) => currentProject ?? "Project_01");
+        setSelectedProject((currentProject) => currentProject ?? PROJECTS[0].id);
     };
 
     const handleProjectsWindowDragStart = (event) => {
@@ -359,11 +415,11 @@ export default function About() {
                                         <p>
                                             I like to call myself an interaction designer, I design and build user interfaces that are interesting to both look at and use. Much of my work is focused on creativity and using every tool at my disposal to make something that both me, and the user, are happy with. While I much prefer front-end work because of the creative freedom, I have experience with back-end development as well.
                                         </p>
-                                        <br/>
+                                        <br />
                                         <p>
                                             If there was one thing I'd like to improve on in my journey it'd probably be responsiveness and accessibility in my work. I tend to prioritize innovation and creativity which makes for (in my humble opinion) beautiful designs, but it's not always optimal for accessibility.
                                         </p>
-                                        <br/>
+                                        <br />
                                         <p>
                                             You can find some of the programs, frameworks, and languages I am most proficient{" "}
                                             <button
@@ -435,17 +491,20 @@ export default function About() {
                                 <div className="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto sm:min-h-[25rem] sm:grid-cols-[13rem_minmax(0,1fr)]">
                                     <aside className="border-b border-white/15 bg-white/[0.02] p-3 sm:border-b-0 sm:border-r">
                                         <div className="flex gap-1 overflow-x-auto sm:flex-col sm:overflow-visible">
-                                            {projects.map((project, index) => (
+                                            {PROJECTS.map((project, index) => (
                                                 <button
                                                     key={project.id}
                                                     type="button"
                                                     aria-pressed={selectedProject === project.id}
                                                     className={`flex min-w-36 flex-1 cursor-pointer items-center gap-2 border px-2 py-3 text-left transition-colors sm:min-w-0 ${selectedProject === project.id ? "border-white/40 bg-white/10 text-white" : "border-transparent text-white/60 hover:border-white/20 hover:bg-white/5 hover:text-white"}`}
-                                                    onClick={() => setSelectedProject(project.id)}
+                                                    onClick={() => {
+                                                        setSelectedProject(project.id);
+                                                        setSelectedProjectImage(0);
+                                                    }}
                                                 >
                                                     <span className="text-[10px] text-white/40 space-mono-regular">0{index + 1}</span>
-                                                    <Folder aria-hidden="true" className="h-4 w-4 shrink-0 text-white/80" strokeWidth={1.5} />
-                                                    <span className="truncate text-xs space-mono-regular">{project.id}</span>
+                                                    <Folder aria-hidden="true" className="h-4 w-4 shrink-0" style={{ color: project.color }} strokeWidth={1.5} />
+                                                    <span className="truncate text-xs space-mono-regular">{project.name}</span>
                                                 </button>
                                             ))}
                                         </div>
@@ -454,46 +513,66 @@ export default function About() {
                                     <div className="min-w-0 p-4 sm:p-5">
                                         <div className="mb-3 flex items-center justify-between gap-3">
                                             <div className="min-w-0">
-                                                <p className="text-[10px] tracking-wide text-white/40 space-mono-bold">Selected Project</p>
-                                                <h2 className="mt-1 truncate text-lg text-white space-mono-bold">{activeProject.id}</h2>
+                                                <h2 className="mt-1 truncate text-lg text-white space-mono-bold">{activeProject.name}</h2>
                                             </div>
-                                            <span className="shrink-0 border border-white/20 px-2 py-1 text-[10px] text-white/50 space-mono-regular">CASE STUDY</span>
+                                            <span className="shrink-0 border border-white/20 px-2 py-1 text-[10px] text-white/50 space-mono-regular">{activeProject.badge}</span>
                                         </div>
 
                                         <div
-                                            className="relative flex aspect-[16/7] min-h-36 items-center justify-center overflow-hidden border border-white/20 bg-[#111216]"
+                                            className={`relative flex items-center justify-center overflow-hidden border border-white/20 bg-[#111216] ${activeProject.previewMode === "portrait" ? "h-[22rem] sm:h-[24rem]" : "aspect-[16/7] min-h-36"}`}
                                             style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px)", backgroundSize: "18px 18px" }}
                                         >
-                                            <div className="absolute inset-x-0 top-0 flex h-7 items-center gap-1.5 border-b border-white/10 bg-black/30 px-3">
-                                                <span className="h-2 w-2 border" style={{ borderColor: activeProject.accent }} />
+                                            <div className="absolute inset-x-0 top-0 z-20 flex h-7 items-center gap-1.5 border-b border-white/10 bg-[#111216]/95 px-3">
+                                                <span className="h-2 w-2 border" style={{ borderColor: activeProject.color }} />
                                                 <span className="h-2 w-2 border border-white/30" />
                                                 <span className="h-2 w-2 border border-white/30" />
                                             </div>
-                                            <div className="flex items-center gap-4 px-4 pt-7">
-                                                <div className="flex h-16 w-16 shrink-0 items-center justify-center border" style={{ borderColor: `${activeProject.accent}80`, color: activeProject.accent }}>
-                                                    <span className="text-3xl space-mono-bold">{activeProject.id.slice(-2)}</span>
+                                            {activeProjectImage ? (
+                                                <div className="absolute inset-x-0 bottom-0 top-7 flex items-center justify-center overflow-hidden">
+                                                    <img
+                                                        src={activeProjectImage.src}
+                                                        alt={activeProjectImage.alt}
+                                                        className={activeProject.previewMode === "portrait"
+                                                            ? "max-h-full max-w-full object-contain"
+                                                            : "absolute inset-0 h-full w-full object-cover"}
+                                                    />
                                                 </div>
-                                                <div>
-                                                    <div className="mb-2 h-2 w-24 max-w-full bg-white/60" />
-                                                    <div className="mb-1.5 h-1 w-32 max-w-full bg-white/20" />
-                                                    <div className="h-1 w-20 max-w-full bg-white/20" />
-                                                    <p className="mt-3 text-[10px] text-white/45 space-mono-regular">Add project image here</p>
+                                            ) : (
+                                                <div className="absolute inset-x-0 bottom-0 top-7 flex items-center justify-center overflow-hidden">
+                                                    <div className="flex items-center gap-4 px-4">
+                                                        <div className="flex h-16 w-16 shrink-0 items-center justify-center border" style={{ borderColor: `${activeProject.color}80`, color: activeProject.color }}>
+                                                            <span className="text-3xl space-mono-bold">{String(PROJECTS.indexOf(activeProject) + 1).padStart(2, "0")}</span>
+                                                        </div>
+                                                        <div>
+                                                            <div className="mb-2 h-2 w-24 max-w-full bg-white/60" />
+                                                            <div className="mb-1.5 h-1 w-32 max-w-full bg-white/20" />
+                                                            <div className="h-1 w-20 max-w-full bg-white/20" />
+                                                            <p className="mt-3 text-[10px] text-white/45 space-mono-regular">Add project image here</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            )}
                                         </div>
 
                                         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/65 space-grotesk">
-                                            Project overview, goals, and process notes will be added here.
+                                            {activeProject.description}
                                         </p>
-                                        <div className="mt-4 flex flex-wrap gap-2 border-t border-white/10 pt-3">
-                                            {[[FileText, "Project_Notes.txt", "Text"], [FileImage, "Project_Preview.png", "Image"]].map(([FileIcon, fileName, fileType]) => (
-                                                <div key={fileName} className="flex items-center gap-2 border border-white/15 px-2.5 py-1.5 text-xs text-white/65">
-                                                    <FileIcon aria-hidden="true" className="h-3.5 w-3.5 text-white/50" strokeWidth={1.5} />
-                                                    <span className="space-grotesk">{fileName}</span>
-                                                    <span className="text-white/35 space-mono-regular">{fileType}</span>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        {activeProject.images.length > 1 && (
+                                            <div className="mt-4 flex gap-2 overflow-x-auto border-t border-white/10 pt-3">
+                                                {activeProject.images.map((image, index) => (
+                                                    <button
+                                                        key={image.src}
+                                                        type="button"
+                                                        aria-label={`Show image ${index + 1}: ${image.alt}`}
+                                                        aria-pressed={selectedProjectImage === index}
+                                                        className={`h-14 w-20 shrink-0 cursor-pointer overflow-hidden border ${selectedProjectImage === index ? "border-white/80" : "border-white/20 hover:border-white/50"}`}
+                                                        onClick={() => setSelectedProjectImage(index)}
+                                                    >
+                                                        <img src={image.src} alt="" className="h-full w-full object-cover" />
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </section>
@@ -573,16 +652,13 @@ export default function About() {
                                 initialPosition={iconConfig.initialPosition}
                                 isSelected={selectedIconIds.has(iconConfig.id)}
                                 onSelect={(id) => setSelectedIconIds(new Set([id]))}
-                                onClick={(id) => {
-                                    if (id === "folder") openProjectsWindow();
-                                    if (id === "scrolltext") {
-                                        window.open("/pdfs/CV%20Elias%20Kristmansson.pdf", "_blank", "noopener,noreferrer");
-                                    }
-                                }}
                                 onOpen={(id) => {
                                     if (id === "filetext") openAboutWindow();
                                     if (id === "expertise") openExpertiseWindow();
                                     if (id === "folder") openProjectsWindow();
+                                    if (id === "scrolltext") {
+                                        window.open("/pdfs/CV%20Elias%20Kristmansson.pdf", "_blank", "noopener,noreferrer");
+                                    }
                                 }}
                                 containerRef={desktopRef}
                             />

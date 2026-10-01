@@ -52,11 +52,13 @@ export default function Header() {
             style={{ transform: `translateY(-${headerOffset}px)` }}
         >
             <div className="relative flex items-center gap-3 cursor-pointer group">
-                <img
-                    src="/images/outlinewhitethin.svg"
-                    alt="Elias Kristmansson logo"
-                    className="h-10 w-10 object-contain shrink-0"
-                />
+                <div className="p-1 border-[1.5px] border-white/60">
+                    <img
+                        src="/images/outlinewhitethin.svg"
+                        alt="Elias Kristmansson logo"
+                        className="h-8 w-8 object-contain shrink-0"
+                    />
+                </div>
                 <div className="relative inline-block">
                     Elias Kristmansson
                     <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-white transition-all group-hover:w-full"></span>
@@ -73,14 +75,15 @@ export default function Header() {
                 >
                     <ChevronDown
                         aria-hidden="true"
-                        className={`h-5 w-5 transition-transform duration-300 ${profileOpen ? "rotate-180" : "rotate-0"}`}
+                        className={`h-5 w-5 ${profileOpen ? "rotate-180" : "rotate-0"}`}
                         strokeWidth={1.5}
                     />
                 </button>
                 <div
                     id="header-profile-photo"
+                    hidden={!profileOpen}
                     aria-hidden={!profileOpen}
-                    className={`absolute right-0 top-full z-20 w-48 origin-top overflow-hidden border border-white/70 bg-midnight-dark shadow-2xl transition-[opacity,transform,visibility] duration-300 ${profileOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0 pointer-events-none"}`}
+                    className="absolute right-0 top-full z-20 w-48 overflow-hidden border border-white/70 bg-midnight-dark shadow-2xl"
                 >
                     <div className="flex h-7 items-center justify-between border-b border-midnight-light bg-midnight-dark/95 px-3">
                         <span className="space-mono-bold text-[11px] tracking-wide text-white/70">thats_me.png</span>

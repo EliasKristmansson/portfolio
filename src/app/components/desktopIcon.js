@@ -13,7 +13,6 @@ export default function DesktopIcon({
     initialPosition,
     isSelected,
     onSelect,
-    onClick,
     onOpen,
     containerRef,
 }) {
@@ -67,7 +66,6 @@ export default function DesktopIcon({
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
-            onClick={() => onClick?.(id)}
             onDoubleClick={() => onOpen?.(id)}
             className="absolute flex w-24 cursor-pointer select-none flex-col items-center gap-1.5 p-2 text-center outline outline-1 outline-dotted outline-transparent transition-colors duration-100 hover:outline-[#e48098]/70"
             style={{
