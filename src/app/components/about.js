@@ -1,8 +1,9 @@
 "use client";
 
-import { ArrowDown, Blocks, FileText, Folder, Minus, ScrollText, X } from "lucide-react";
+import { ArrowDown, Blocks, FileText, Folder, Mail, Maximize2, Minimize, Minus, ScrollText, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import DesktopIcon from "./desktopIcon.js";
+import Contact from "./contact.js";
 import { logos } from "./techCarousel.js";
 
 const PROJECTS = [
@@ -24,7 +25,7 @@ const PROJECTS = [
         badge: "WELLTECH APP",
         color: "#fff0cf",
         previewMode: "portrait",
-        description: "Welltech app made using React Native and Expo. The app is a prototype of a social media aimed at employees of companies. The idea is that, once a day, the user is presented with a text prompt which feeling they have to capture in a picture. This picture can then be shared in dynamic groups across the company.",
+        description: "Welltech app made using React Native and Expo. The app is a prototype of a social media aimed at employees of companies. The idea is that, once a day, the user is presented with a text prompt whose feeling they have to capture in a picture. This picture can then be shared in dynamic groups across the company.",
         images: [
             { src: "/projects/project-02/explora.png", alt: "Explora login screen" },
             { src: "/projects/project-02/explora3.png", alt: "Explora front page" },
@@ -35,34 +36,58 @@ const PROJECTS = [
     },
     {
         id: "project-03",
-        name: "Project_03",
-        badge: "CASE STUDY",
-        color: "#fb923c",
-        description: "Project overview, goals, and process notes will be added here.",
-        images: [],
+        name: "Försäkringskassan Dashboard",
+        badge: "WEB PROTOTYPE",
+        color: "#007A3E",
+        description: "School collaboration project with Försäkringskassan. The project was a prototype of a new design for their web page, with a focus on improving the user experience for their customers by making it into a dashboard. The project was made using Figma.",
+        images: [
+            { src: "/projects/project-03/forsakringskassan.png", alt: "Forsakringskassan dashboard" },
+            { src: "/projects/project-03/forsakringskassan2.png", alt: "Forsakringskassan stories page" },
+            { src: "/projects/project-03/forsakringskassan3.png", alt: "Forsakringskassan stories widget" },
+            { src: "/projects/project-03/forsakringskassan4.png", alt: "Forsakringskassan scrolled dashboard" },
+        ],
     },
     {
         id: "project-04",
-        name: "Project_04",
-        badge: "CASE STUDY",
-        color: "#25b4f0",
-        description: "Project overview, goals, and process notes will be added here.",
-        images: [],
+        name: "Projekt Streamline",
+        badge: "WEB PAGE",
+        color: "#e0e0e0",
+        description: "Collaboration project with a company called Pelagia. The goal was to create a new documentation/sorting system for their internal use. The project was made using React. The result landed in a prototype that was presented to the company, and was left open for further development.",
+        images: [
+            { src: "/projects/project-04/pelagia.png", alt: "Projekt Streamline project view" },
+            { src: "/projects/project-04/pelagia2.png", alt: "Projekt Streamline sidebar" },
+            { src: "/projects/project-04/pelagia3.png", alt: "Projekt Streamline modal 1" },
+            { src: "/projects/project-04/pelagia4.png", alt: "Projekt Streamline modal 2" },
+            { src: "/projects/project-04/pelagia5.png", alt: "Projekt Streamline filter modal" },
+        ],
     },
     {
         id: "project-05",
-        name: "Project_05",
-        badge: "CASE STUDY",
-        color: "#e48098",
-        description: "Project overview, goals, and process notes will be added here.",
-        images: [],
+        name: "Whiteboard",
+        badge: "FULLSTACK WEB APP",
+        color: "#ffffff",
+        description: "Simple whiteboard application made using React for frontend and ASP.NET Core for backend, as well as SignalR for websocket handling. Supports multiple users and real-time drawing and chatting.",
+        link: "https://whiteboard-frontend-e304.onrender.com/",
+        images: [
+            { src: "/projects/project-05/whiteboard.png", alt: "Whiteboard page" },
+            { src: "/projects/project-05/whiteboard2.png", alt: "Whiteboard page with more drawing" },
+            { src: "/projects/project-05/whiteboard3.png", alt: "Whiteboard chat" },
+        ],
     },
     {
         id: "project-06",
-        name: "Project_06",
-        badge: "CASE STUDY",
-        color: "#fb923c",
-        description: "Project overview, goals, and process notes will be added here.",
+        name: "Audio Feedback in Gaming: How Audio Properties Shape Player Experience",
+        badge: "RESEARCH PAPER",
+        color: "#59a4da",
+        abstract: [
+            "This study investigates how audio feedback in video games influences player experience, with a focus on four specific audio properties (Pitch, Loudness, ADSR Envelope, and Frequency Content) across three classic interactions: collecting an item, making a UI action, and taking damage.",
+            "The study consisted of two phases, the data gathering phase and the audio analysis phase. The first phase involved the player test, where players chose the sounds to be investigated in the second phase. The resulting sounds were extracted and analyzed according to the four audio properties.",
+            "The analysis indicated, among other things, that UI action sounds should be short, noise-like clicks to effectively respond to the player’s actions. Item collection sounds should also be fast, but lean towards being rewarding and positive, while the taking damage sounds should be slightly longer and lean towards being punishing, impactful, and negative.",
+            "Audio feedback remains a relatively underexplored area in game design research, and these findings—along with potential future ones should this paper be expanded upon—provide more scientifically and technically grounded guidelines for sound designers and game developers looking to give players more effective feedback in their games.",
+        ],
+        audioProperties: ["Pitch", "Loudness", "ADSR Envelope", "Frequency Content"],
+        interactions: ["Collecting an item", "Making a UI action", "Taking damage"],
+        pdfUrl: "/projects/project-06/Audio%20Feedback%20in%20Gaming%20How%20Audio%20Properties%20Shape%20Player%20Experience.pdf",
         images: [],
     },
 ];
@@ -84,6 +109,7 @@ export default function About() {
     const [selectionBox, setSelectionBox] = useState(null);
     const [aboutWindowOpen, setAboutWindowOpen] = useState(true);
     const [aboutWindowMinimized, setAboutWindowMinimized] = useState(false);
+    const [contactWindowOpen, setContactWindowOpen] = useState(false);
     const [aboutWindowPosition, setAboutWindowPosition] = useState({ x: 180, y: 72 });
     const [aboutWindowSize, setAboutWindowSize] = useState({ width: 544, height: 300 });
     const windowDragRef = useRef(null);
@@ -96,7 +122,9 @@ export default function About() {
     const expertiseWindowRef = useRef(null);
     const [projectsWindowOpen, setProjectsWindowOpen] = useState(false);
     const [projectsWindowMinimized, setProjectsWindowMinimized] = useState(false);
+    const [projectsWindowFullscreen, setProjectsWindowFullscreen] = useState(false);
     const [projectsWindowPosition, setProjectsWindowPosition] = useState({ x: 120, y: 48 });
+    const projectsWindowRestorePositionRef = useRef(null);
     const [selectedProject, setSelectedProject] = useState("project-01");
     const [selectedProjectImage, setSelectedProjectImage] = useState(0);
     const projectsWindowDragRef = useRef(null);
@@ -107,6 +135,7 @@ export default function About() {
 
     const desktopIcons = [
         { id: "filetext", icon: FileText, label: "About Me.txt", initialPosition: { x: 24, y: 24 } },
+        { id: "contact", icon: Mail, label: "Contact", initialPosition: { x: 24, y: 488 } },
         { id: "expertise", icon: Blocks, label: "Expertise", initialPosition: { x: 24, y: 372 } },
         { id: "folder", icon: Folder, label: "Projects", initialPosition: { x: 24, y: 140 } },
         { id: "scrolltext", icon: ScrollText, label: "CV.pdf", initialPosition: { x: 24, y: 256 } },
@@ -270,7 +299,22 @@ export default function About() {
         setSelectedProject((currentProject) => currentProject ?? PROJECTS[0].id);
     };
 
+    const toggleProjectsWindowFullscreen = () => {
+        if (projectsWindowFullscreen) {
+            if (projectsWindowRestorePositionRef.current) {
+                setProjectsWindowPosition(projectsWindowRestorePositionRef.current);
+            }
+            projectsWindowRestorePositionRef.current = null;
+            setProjectsWindowFullscreen(false);
+            return;
+        }
+
+        projectsWindowRestorePositionRef.current = projectsWindowPosition;
+        setProjectsWindowFullscreen(true);
+    };
+
     const handleProjectsWindowDragStart = (event) => {
+        if (projectsWindowFullscreen) return;
         if (event.target.closest("button")) return;
 
         const workspace = selectionAreaRef.current;
@@ -354,11 +398,11 @@ export default function About() {
                 >
                     {/* Titelbar — tunn rad högst upp, hintar "fönster" utan att bli skeuomorfisk */}
                     <div className="flex h-7 flex-shrink-0 items-center justify-between border-b border-midnight-light bg-midnight-dark/80 px-3">
-                        <span className="text-[11px] tracking-wide text-white/50 space-mono-bold">About</span>
+                        <span className="text-[11px] tracking-wide text-white/50 space-mono-bold">Desktop</span>
                         <div className="flex gap-1.5">
                             <span className="h-2.5 w-2.5 border" style={{ borderColor: "#e48098" }} />
                             <span className="h-2.5 w-2.5 border" style={{ borderColor: "#25b4f0" }} />
-                            <span className="h-2.5 w-2.5 border border-white/50" />
+                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#fb923c" }} />
                         </div>
                     </div>
 
@@ -454,8 +498,8 @@ export default function About() {
                             <section
                                 ref={projectsWindowRef}
                                 aria-label="Projects folder"
-                                className={`absolute z-30 flex max-h-[calc(100%-2rem)] w-[min(58rem,calc(100%-2rem))] flex-col overflow-hidden border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${projectsWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
-                                style={{ left: projectsWindowPosition.x, top: projectsWindowPosition.y }}
+                                className={`absolute z-30 flex ${projectsWindowFullscreen ? "inset-0 h-full w-full" : "max-h-[calc(100%-2rem)] w-[min(58rem,calc(100%-2rem))]"} flex-col overflow-hidden border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${projectsWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                style={projectsWindowFullscreen ? undefined : { left: projectsWindowPosition.x, top: projectsWindowPosition.y }}
                             >
                                 <div
                                     className="flex h-9 shrink-0 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
@@ -476,11 +520,25 @@ export default function About() {
                                         </button>
                                         <button
                                             type="button"
+                                            aria-label={projectsWindowFullscreen ? "Restore Projects window" : "Fullscreen Projects window"}
+                                            aria-pressed={projectsWindowFullscreen}
+                                            title={projectsWindowFullscreen ? "Restore window" : "Fullscreen"}
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#25b4f0] hover:text-black"
+                                            onClick={toggleProjectsWindowFullscreen}
+                                        >
+                                            {projectsWindowFullscreen
+                                                ? <Minimize aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+                                                : <Maximize2 aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />}
+                                        </button>
+                                        <button
+                                            type="button"
                                             aria-label="Close Projects window"
                                             className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#e48098] hover:text-black"
                                             onClick={() => {
                                                 setProjectsWindowOpen(false);
                                                 setProjectsWindowMinimized(false);
+                                                setProjectsWindowFullscreen(false);
+                                                projectsWindowRestorePositionRef.current = null;
                                                 setSelectedProject(null);
                                             }}
                                         >
@@ -489,7 +547,7 @@ export default function About() {
                                     </div>
                                 </div>
                                 <div className="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto sm:min-h-[25rem] sm:grid-cols-[13rem_minmax(0,1fr)]">
-                                    <aside className="border-b border-white/15 bg-white/[0.02] p-3 sm:border-b-0 sm:border-r">
+                                    <aside className="border-b border-white/15 p-3 sm:border-b-0 sm:border-r">
                                         <div className="flex gap-1 overflow-x-auto sm:flex-col sm:overflow-visible">
                                             {PROJECTS.map((project, index) => (
                                                 <button
@@ -510,7 +568,7 @@ export default function About() {
                                         </div>
                                     </aside>
 
-                                    <div className="min-w-0 p-4 sm:p-5">
+                                    <div className={`min-w-0 p-4 sm:p-5 ${activeProject.abstract && projectsWindowFullscreen ? "flex flex-col" : ""}`}>
                                         <div className="mb-3 flex items-center justify-between gap-3">
                                             <div className="min-w-0">
                                                 <h2 className="mt-1 truncate text-lg text-white space-mono-bold">{activeProject.name}</h2>
@@ -519,22 +577,47 @@ export default function About() {
                                         </div>
 
                                         <div
-                                            className={`relative flex items-center justify-center overflow-hidden border border-white/20 bg-[#111216] ${activeProject.previewMode === "portrait" ? "h-[22rem] sm:h-[24rem]" : "aspect-[16/7] min-h-36"}`}
+                                            className={`relative border border-white/20 ${activeProject.abstract ? "bg-midnight-dark" : "bg-[#111216]"} ${activeProject.abstract ? `flex flex-col ${projectsWindowFullscreen ? "min-h-[min(70vh,38rem)] flex-1" : "min-h-[22rem]"}` : `flex items-center justify-center overflow-hidden ${activeProject.previewMode === "portrait" ? "h-[22rem] sm:h-[24rem]" : "aspect-[16/7] min-h-36"}`}`}
                                             style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px)", backgroundSize: "18px 18px" }}
                                         >
-                                            <div className="absolute inset-x-0 top-0 z-20 flex h-7 items-center gap-1.5 border-b border-white/10 bg-[#111216]/95 px-3">
+                                            <div className="absolute inset-x-0 top-0 z-20 flex h-7 items-center gap-1.5 border-b border-white/10 bg-midnight-dark/95 px-3">
                                                 <span className="h-2 w-2 border" style={{ borderColor: activeProject.color }} />
                                                 <span className="h-2 w-2 border border-white/30" />
                                                 <span className="h-2 w-2 border border-white/30" />
                                             </div>
-                                            {activeProjectImage ? (
-                                                <div className="absolute inset-x-0 bottom-0 top-7 flex items-center justify-center overflow-hidden">
+                                            {activeProject.abstract ? (
+                                                <div className="relative z-10 flex flex-1 flex-col px-5 pb-5 pt-12 sm:px-8 sm:pb-7 sm:pt-14">
+                                                    <div className="mx-auto grid w-full flex-1 grid-cols-1 content-start gap-8 xl:grid-cols-[minmax(0,1fr)_10rem]">
+                                                        <article className="w-full max-w-[82ch]">
+                                                            <h3 className="mb-4 text-xs text-white/50 space-mono-bold">Abstract</h3>
+                                                            <div className="space-y-4">
+                                                                {activeProject.abstract.map((paragraph) => (
+                                                                    <p key={paragraph} className="text-sm leading-relaxed text-white/85 space-grotesk">{paragraph}</p>
+                                                                ))}
+                                                            </div>
+                                                        </article>
+                                                        <aside className="flex flex-col gap-7 border-t border-white/15 pt-5 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
+                                                            <section>
+                                                                <h4 className="mb-2 text-[10px] text-white/45 space-mono-bold">AUDIO PROPERTIES</h4>
+                                                                <ul className="space-y-2 text-xs text-white/75 space-mono-regular">
+                                                                    {activeProject.audioProperties.map((property) => <li key={property}>{property}</li>)}
+                                                                </ul>
+                                                            </section>
+                                                            <section>
+                                                                <h4 className="mb-2 text-[10px] text-white/45 space-mono-bold">TEST INTERACTIONS</h4>
+                                                                <ul className="space-y-2 text-xs leading-relaxed text-white/75 space-mono-regular">
+                                                                    {activeProject.interactions.map((interaction) => <li key={interaction}>{interaction}</li>)}
+                                                                </ul>
+                                                            </section>
+                                                        </aside>
+                                                    </div>
+                                                </div>
+                                            ) : activeProjectImage ? (
+                                                <div className="absolute inset-x-0 bottom-0 top-7 flex items-start justify-center overflow-hidden">
                                                     <img
                                                         src={activeProjectImage.src}
                                                         alt={activeProjectImage.alt}
-                                                        className={activeProject.previewMode === "portrait"
-                                                            ? "max-h-full max-w-full object-contain"
-                                                            : "absolute inset-0 h-full w-full object-cover"}
+                                                        className="max-h-full max-w-full object-contain object-top"
                                                     />
                                                 </div>
                                             ) : (
@@ -554,9 +637,31 @@ export default function About() {
                                             )}
                                         </div>
 
-                                        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/65 space-grotesk">
-                                            {activeProject.description}
-                                        </p>
+                                        {activeProject.abstract ? (
+                                            <a
+                                                href={activeProject.pdfUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="mt-3 inline-flex min-h-11 items-center gap-2 border border-white/30 px-4 py-2 text-xs text-white transition-colors hover:border-[#25b4f0] hover:bg-[#25b4f0] hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25b4f0] space-mono-bold"
+                                            >
+                                                <FileText aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+                                                Read full paper
+                                            </a>
+                                        ) : (
+                                            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/65 space-grotesk">
+                                                {activeProject.description}
+                                                {activeProject.link && (
+                                                    <a
+                                                        href={activeProject.link}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="ml-1 cursor-pointer text-[#25b4f0] underline decoration-[#25b4f0]/70 underline-offset-2 hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[#25b4f0]"
+                                                    >
+                                                        Open the live app
+                                                    </a>
+                                                )}
+                                            </p>
+                                        )}
                                         {activeProject.images.length > 1 && (
                                             <div className="mt-4 flex gap-2 overflow-x-auto border-t border-white/10 pt-3">
                                                 {activeProject.images.map((image, index) => (
@@ -635,6 +740,8 @@ export default function About() {
                             </section>
                         )}
 
+                        <Contact isOpen={contactWindowOpen} onClose={() => setContactWindowOpen(false)} />
+
                         {selectionBox && (
                             <div
                                 aria-hidden="true"
@@ -654,6 +761,7 @@ export default function About() {
                                 onSelect={(id) => setSelectedIconIds(new Set([id]))}
                                 onOpen={(id) => {
                                     if (id === "filetext") openAboutWindow();
+                                    if (id === "contact") setContactWindowOpen(true);
                                     if (id === "expertise") openExpertiseWindow();
                                     if (id === "folder") openProjectsWindow();
                                     if (id === "scrolltext") {
