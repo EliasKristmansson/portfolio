@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 
 // Ungefärlig bredd/höjd på ikon+label — används för att inte kunna
 // dra ut ikonen så den hamnar delvis utanför skrivbordsytan.
@@ -10,35 +10,42 @@ export default function DesktopIcon({
     id,
     icon: IconComponent,
     label,
-    initialPosition,
     isSelected,
+    positions,
+    selectedIconIds,
     onSelect,
+    onMoveSelected,
     onOpen,
     containerRef,
 }) {
-    const [position, setPosition] = useState(initialPosition);
     const dragState = useRef(null);
 
     const handlePointerDown = useCallback((event) => {
         // Hindra att klicket bubblar upp till skrivbordets egen
         // "klick på tomt utrymme -> avmarkera allt"-hanterare.
         event.stopPropagation();
-        onSelect(id);
+        if (!isSelected) onSelect(id);
 
         const container = containerRef.current;
         if (!container) return;
-        const bounds = container.getBoundingClientRect();
+        const movingIds = isSelected ? [...selectedIconIds] : [id];
+        const movingPositions = Object.fromEntries(movingIds.map((movingId) => [movingId, positions[movingId]]));
+        const groupBounds = {
+            left: Math.min(...Object.values(movingPositions).map(({ x }) => x)),
+            top: Math.min(...Object.values(movingPositions).map(({ y }) => y)),
+            right: Math.max(...Object.values(movingPositions).map(({ x }) => x + ICON_FOOTPRINT)),
+            bottom: Math.max(...Object.values(movingPositions).map(({ y }) => y + ICON_FOOTPRINT)),
+        };
 
         dragState.current = {
             pointerId: event.pointerId,
-            // avstånd mellan pekarens position och ikonens hörn vid
-            // dragstart — utan detta hoppar ikonen så dess hörn hamnar
-            // exakt under muspekaren, vilket känns fel
-            offsetX: event.clientX - bounds.left - position.x,
-            offsetY: event.clientY - bounds.top - position.y,
+            startX: event.clientX,
+            startY: event.clientY,
+            movingPositions,
+            groupBounds,
         };
         event.currentTarget.setPointerCapture(event.pointerId);
-    }, [id, onSelect, position, containerRef]);
+    }, [id, isSelected, onSelect, positions, selectedIconIds, containerRef]);
 
     const handlePointerMove = useCallback((event) => {
         if (!dragState.current || dragState.current.pointerId !== event.pointerId) return;
@@ -46,14 +53,21 @@ export default function DesktopIcon({
         if (!container) return;
         const bounds = container.getBoundingClientRect();
 
-        const nextX = event.clientX - bounds.left - dragState.current.offsetX;
-        const nextY = event.clientY - bounds.top - dragState.current.offsetY;
+        const offsetX = Math.max(
+            -dragState.current.groupBounds.left,
+            Math.min(bounds.width - dragState.current.groupBounds.right, event.clientX - dragState.current.startX),
+        );
+        const offsetY = Math.max(
+            -dragState.current.groupBounds.top,
+            Math.min(bounds.height - dragState.current.groupBounds.bottom, event.clientY - dragState.current.startY),
+        );
 
-        setPosition({
-            x: Math.max(0, Math.min(bounds.width - ICON_FOOTPRINT, nextX)),
-            y: Math.max(0, Math.min(bounds.height - ICON_FOOTPRINT, nextY)),
-        });
-    }, [containerRef]);
+        const nextPositions = Object.fromEntries(Object.entries(dragState.current.movingPositions).map(([movingId, position]) => [
+            movingId,
+            { x: position.x + offsetX, y: position.y + offsetY },
+        ]));
+        onMoveSelected((currentPositions) => ({ ...currentPositions, ...nextPositions }));
+    }, [containerRef, onMoveSelected]);
 
     const handlePointerUp = useCallback(() => {
         dragState.current = null;
@@ -69,8 +83,8 @@ export default function DesktopIcon({
             onDoubleClick={() => onOpen?.(id)}
             className="absolute flex w-24 cursor-pointer select-none flex-col items-center gap-1.5 p-2 text-center outline outline-1 outline-dotted outline-transparent transition-colors duration-100 hover:outline-[#e48098]/70"
             style={{
-                left: position.x,
-                top: position.y,
+                left: positions[id].x,
+                top: positions[id].y,
                 outlineOffset: "-1px",
                 backgroundColor: isSelected ? "rgba(37, 180, 240, 0.35)" : undefined,
                 outlineColor: isSelected ? "rgba(37, 180, 240, 0.9)" : undefined,

@@ -107,9 +107,11 @@ export default function About() {
     const selectionStartRef = useRef(null);
     const [selectedIconIds, setSelectedIconIds] = useState(new Set());
     const [selectionBox, setSelectionBox] = useState(null);
+    const [windowOrder, setWindowOrder] = useState(["about", "expertise", "projects", "contact"]);
     const [aboutWindowOpen, setAboutWindowOpen] = useState(true);
     const [aboutWindowMinimized, setAboutWindowMinimized] = useState(false);
     const [contactWindowOpen, setContactWindowOpen] = useState(false);
+    const [contactWindowMinimized, setContactWindowMinimized] = useState(false);
     const [aboutWindowPosition, setAboutWindowPosition] = useState({ x: 180, y: 72 });
     const [aboutWindowSize, setAboutWindowSize] = useState({ width: 544, height: 300 });
     const windowDragRef = useRef(null);
@@ -130,6 +132,14 @@ export default function About() {
     const projectsWindowDragRef = useRef(null);
     const projectsWindowRef = useRef(null);
 
+    const bringWindowToFront = (windowName) => {
+        setWindowOrder((currentOrder) => [
+            ...currentOrder.filter((name) => name !== windowName),
+            windowName,
+        ]);
+    };
+    const getWindowZIndex = (windowName) => 20 + windowOrder.indexOf(windowName);
+
     const activeProject = PROJECTS.find((project) => project.id === selectedProject) ?? PROJECTS[0];
     const activeProjectImage = activeProject.images[selectedProjectImage] ?? activeProject.images[0];
 
@@ -140,6 +150,9 @@ export default function About() {
         { id: "folder", icon: Folder, label: "Projects", initialPosition: { x: 24, y: 140 } },
         { id: "scrolltext", icon: ScrollText, label: "CV.pdf", initialPosition: { x: 24, y: 256 } },
     ];
+    const [desktopIconPositions, setDesktopIconPositions] = useState(() => Object.fromEntries(
+        desktopIcons.map(({ id, initialPosition }) => [id, initialPosition]),
+    ));
 
     const [clockTime, setClockTime] = useState(null);
 
@@ -204,6 +217,7 @@ export default function About() {
     };
 
     const handleWindowDragStart = (event) => {
+        bringWindowToFront("about");
         if (event.target.closest("button")) return;
 
         const workspace = selectionAreaRef.current;
@@ -276,16 +290,25 @@ export default function About() {
     };
 
     const openAboutWindow = () => {
+        bringWindowToFront("about");
         setAboutWindowOpen(true);
         setAboutWindowMinimized(false);
     };
 
+    const openContactWindow = () => {
+        bringWindowToFront("contact");
+        setContactWindowOpen(true);
+        setContactWindowMinimized(false);
+    };
+
     const openExpertiseWindow = () => {
+        bringWindowToFront("expertise");
         setExpertiseWindowOpen(true);
         setExpertiseWindowMinimized(false);
     };
 
     const openProjectsWindow = () => {
+        bringWindowToFront("projects");
         const bounds = selectionAreaRef.current?.getBoundingClientRect();
         if (bounds) {
             const windowWidth = Math.min(928, bounds.width - 32);
@@ -314,6 +337,7 @@ export default function About() {
     };
 
     const handleProjectsWindowDragStart = (event) => {
+        bringWindowToFront("projects");
         if (projectsWindowFullscreen) return;
         if (event.target.closest("button")) return;
 
@@ -348,6 +372,7 @@ export default function About() {
     };
 
     const handleExpertiseWindowDragStart = (event) => {
+        bringWindowToFront("expertise");
         if (event.target.closest("button")) return;
 
         const workspace = selectionAreaRef.current;
@@ -419,8 +444,8 @@ export default function About() {
                             <section
                                 ref={aboutWindowRef}
                                 aria-label="About information window"
-                                className={`absolute z-20 w-[min(34rem,calc(100%-2rem))] origin-bottom-left border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${aboutWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
-                                style={{ left: aboutWindowPosition.x, top: aboutWindowPosition.y, width: aboutWindowSize.width, height: aboutWindowSize.height }}
+                                className={`absolute w-[min(34rem,calc(100%-2rem))] origin-bottom-left border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${aboutWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                style={{ left: aboutWindowPosition.x, top: aboutWindowPosition.y, width: aboutWindowSize.width, height: aboutWindowSize.height, zIndex: getWindowZIndex("about") }}
                             >
                                 <div
                                     className="flex h-9 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
@@ -465,7 +490,7 @@ export default function About() {
                                         </p>
                                         <br />
                                         <p>
-                                            You can find some of the programs, frameworks, and languages I am most proficient{" "}
+                                            You can find some of the programs, frameworks, and languages I am most proficient with{" "}
                                             <button
                                                 type="button"
                                                 className="cursor-pointer underline decoration-white/60 underline-offset-2 hover:text-white"
@@ -498,8 +523,8 @@ export default function About() {
                             <section
                                 ref={projectsWindowRef}
                                 aria-label="Projects folder"
-                                className={`absolute z-30 flex ${projectsWindowFullscreen ? "inset-0 h-full w-full" : "max-h-[calc(100%-2rem)] w-[min(58rem,calc(100%-2rem))]"} flex-col overflow-hidden border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${projectsWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
-                                style={projectsWindowFullscreen ? undefined : { left: projectsWindowPosition.x, top: projectsWindowPosition.y }}
+                                className={`absolute flex ${projectsWindowFullscreen ? "inset-0 h-full w-full" : "max-h-[calc(100%-2rem)] w-[min(58rem,calc(100%-2rem))]"} flex-col overflow-hidden border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${projectsWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                style={{ zIndex: getWindowZIndex("projects"), ...(projectsWindowFullscreen ? {} : { left: projectsWindowPosition.x, top: projectsWindowPosition.y }) }}
                             >
                                 <div
                                     className="flex h-9 shrink-0 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
@@ -687,8 +712,8 @@ export default function About() {
                             <section
                                 ref={expertiseWindowRef}
                                 aria-label="Expertise folder"
-                                className={`absolute z-30 w-[min(38rem,calc(100%-2rem))] border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${expertiseWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
-                                style={{ left: expertiseWindowPosition.x, top: expertiseWindowPosition.y }}
+                                className={`absolute w-[min(38rem,calc(100%-2rem))] border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${expertiseWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                style={{ left: expertiseWindowPosition.x, top: expertiseWindowPosition.y, zIndex: getWindowZIndex("expertise") }}
                             >
                                 <div
                                     className="flex h-9 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
@@ -740,7 +765,18 @@ export default function About() {
                             </section>
                         )}
 
-                        <Contact isOpen={contactWindowOpen} onClose={() => setContactWindowOpen(false)} />
+                        <Contact
+                            containerRef={selectionAreaRef}
+                            isOpen={contactWindowOpen}
+                            isMinimized={contactWindowMinimized}
+                            onClose={() => {
+                                setContactWindowOpen(false);
+                                setContactWindowMinimized(false);
+                            }}
+                            onFocus={() => bringWindowToFront("contact")}
+                            onMinimize={() => setContactWindowMinimized(true)}
+                            zIndex={getWindowZIndex("contact")}
+                        />
 
                         {selectionBox && (
                             <div
@@ -756,12 +792,16 @@ export default function About() {
                                 id={iconConfig.id}
                                 icon={iconConfig.icon}
                                 label={iconConfig.label}
-                                initialPosition={iconConfig.initialPosition}
                                 isSelected={selectedIconIds.has(iconConfig.id)}
-                                onSelect={(id) => setSelectedIconIds(new Set([id]))}
+                                positions={desktopIconPositions}
+                                selectedIconIds={selectedIconIds}
+                                onMoveSelected={setDesktopIconPositions}
+                                onSelect={(id) => setSelectedIconIds((current) => current.has(id) ? current : new Set([id]))}
                                 onOpen={(id) => {
                                     if (id === "filetext") openAboutWindow();
-                                    if (id === "contact") setContactWindowOpen(true);
+                                    if (id === "contact") {
+                                        openContactWindow();
+                                    }
                                     if (id === "expertise") openExpertiseWindow();
                                     if (id === "folder") openProjectsWindow();
                                     if (id === "scrolltext") {
@@ -791,6 +831,17 @@ export default function About() {
                             >
                                 <FileText aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
                                 About Me.txt
+                            </button>
+                        )}
+                        {(contactWindowOpen || contactWindowMinimized) && (
+                            <button
+                                type="button"
+                                aria-label="Open Contact window"
+                                onClick={openContactWindow}
+                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${contactWindowOpen && !contactWindowMinimized ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
+                            >
+                                <Mail aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
+                                Contact
                             </button>
                         )}
                         {(expertiseWindowOpen || expertiseWindowMinimized) && (
