@@ -1,6 +1,7 @@
 import Header from "./components/header.js";
 import Main from "./components/main.js";
 import About from "./components/about.js";
+import SelectedWork from "./components/selectedWork.js";
 import Shader from "./components/shader.js";
 import { exampleFragment } from "./components/shaders/example.js";
 
@@ -22,6 +23,7 @@ export default function Home() {
 					<div className="relative z-10">
 						<Main />
 						<About />
+						<SelectedWork />
 						<footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center"></footer>
 					</div>
 				</div>

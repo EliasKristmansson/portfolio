@@ -101,6 +101,12 @@ const hexToRgb = (hex) => {
     };
 };
 
+const getAge = () => {
+    const today = new Date();
+    const birthdayThisYear = new Date(today.getFullYear(), 10, 5);
+    return today.getFullYear() - 2002 - (today < birthdayThisYear ? 1 : 0);
+};
+
 export default function About() {
     const desktopRef = useRef(null);
     const selectionAreaRef = useRef(null);
@@ -112,8 +118,8 @@ export default function About() {
     const [aboutWindowMinimized, setAboutWindowMinimized] = useState(false);
     const [contactWindowOpen, setContactWindowOpen] = useState(false);
     const [contactWindowMinimized, setContactWindowMinimized] = useState(false);
-    const [aboutWindowPosition, setAboutWindowPosition] = useState({ x: 180, y: 72 });
-    const [aboutWindowSize, setAboutWindowSize] = useState({ width: 544, height: 300 });
+    const [aboutWindowPosition, setAboutWindowPosition] = useState({ x: 180, y: 16 });
+    const [aboutWindowSize, setAboutWindowSize] = useState({ width: 544, height: 540 });
     const windowDragRef = useRef(null);
     const windowResizeRef = useRef(null);
     const aboutWindowRef = useRef(null);
@@ -414,7 +420,7 @@ export default function About() {
             <div className="border border-white lg:min-h-[700px] grid grid-cols-1 gap-14 items-stretch">
                 <div
                     ref={desktopRef}
-                    className="relative flex h-full min-h-[400px] w-full flex-col overflow-hidden border border-white/40"
+                    className="relative flex h-full min-h-[600px] w-full flex-col overflow-hidden border border-white/40"
                     style={{
                         backgroundColor: "#0e0e0f",
                         backgroundImage: "radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)",
@@ -481,12 +487,22 @@ export default function About() {
                                 {!aboutWindowMinimized && (
                                     <div className="h-[calc(100%-2.25rem)] overflow-auto p-6 text-sm leading-relaxed text-white/80 space-grotesk">
                                         <h2 className="mb-3 text-2xl text-white space-mono-bold">About me</h2>
+                                        <dl className="mb-4 flex flex-wrap gap-x-5 gap-y-2 text-xs space-mono-regular">
+                                            <div className="flex gap-2">
+                                                <dt className="text-white/40">AGE</dt>
+                                                <dd>{getAge()}</dd>
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <dt className="text-white/40">LOCATION</dt>
+                                                <dd>Umeå, Sweden</dd>
+                                            </div>
+                                        </dl>
                                         <p>
-                                            I like to call myself an interaction designer, I design and build user interfaces that are interesting to both look at and use. Much of my work is focused on creativity and using every tool at my disposal to make something that both me, and the user, are happy with. While I much prefer front-end work because of the creative freedom, I have experience with back-end development as well.
+                                            I am an interaction designer, which means I design and build user interfaces that are intriguing and fascinating to both look at and use. Much of my work is focused on creativity and imagination and using every tool at my disposal to make something that both the user and I are more than happy with. While I prefer front-end work because of the creative freedom it gives, I do have experience with back-end development as well.
                                         </p>
                                         <br />
                                         <p>
-                                            If there was one thing I'd like to improve on in my journey it'd probably be responsiveness and accessibility in my work. I tend to prioritize innovation and creativity which makes for (in my humble opinion) beautiful designs, but it's not always optimal for accessibility.
+                                            If there was one thing I'd like to improve on it'd probably be introducing responsiveness and accessibility in my work in more innovative ways. It is relatively easy to make a website look good and to be inventive, but not always as easy to make it responsive and accessible using similar methods. I work against the stigma that accessibility is boring and takes away from the freedom of design, and I try to make it a part of the process instead.
                                         </p>
                                         <br />
                                         <p>
@@ -877,7 +893,7 @@ export default function About() {
 
                 {/* Scroll Arrow */}
                 <a
-                    href="#about"
+                    href="#selected-work"
                     aria-label="Go to About section"
                     className="absolute bottom-5 left-1/2 transform -translate-x-1/2 w-10 h-10 z-100 border border-white flex items-center justify-center cursor-pointer transition-colors duration-100 bg-midnight hover:bg-white hover:text-black"
                 >
