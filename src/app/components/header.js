@@ -88,8 +88,8 @@ export default function Header() {
                     <div className="flex h-7 items-center justify-between border-b border-midnight-light bg-midnight-dark/95 px-3">
                         <span className="space-mono-bold text-[11px] tracking-wide text-white/70">thats_me.png</span>
                         <div aria-hidden="true" className="flex gap-1.5">
-                            <span className="h-2.5 w-2.5 border border-[#e48098]" />
-                            <span className="h-2.5 w-2.5 border border-[#25b4f0]" />
+                            <span className="h-2.5 w-2.5 border border-[#FF7A9B]" />
+                            <span className="h-2.5 w-2.5 border border-[#0AB5FF]" />
                             <span className="h-2.5 w-2.5 border border-white/50" />
                         </div>
                     </div>

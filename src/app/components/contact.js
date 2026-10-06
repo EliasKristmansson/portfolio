@@ -90,7 +90,7 @@ export default function Contact({ containerRef, isMinimized, isOpen, onClose, on
                     <button
                         type="button"
                         aria-label="Minimize Contact window"
-                        className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#25b4f0] hover:text-black"
+                        className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
                         onClick={onMinimize}
                     >
                         <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -98,7 +98,7 @@ export default function Contact({ containerRef, isMinimized, isOpen, onClose, on
                     <button
                         type="button"
                         aria-label="Close Contact window"
-                        className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#e48098] hover:text-black"
+                        className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#FF7A9B] hover:text-black"
                         onClick={handleClose}
                     >
                         <X aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />

@@ -18,15 +18,15 @@ export default function Main() {
                         className="text-9xl space-mono-bold"
                         style={{ textShadow: "0 0 50px rgba(0, 0, 0, 1)" }}
                     >
-                        <span style={{ color: "#25b4f0" }}>Designer</span>
+                        <span style={{ color: "#0AB5FF" }}>Designer</span>
                         +
-                        <span style={{ color: "#e48098" }}>Developer</span>
+                        <span style={{ color: "#FF7A9B" }}>Developer</span>
                     </div>
 
                     <div className="text-7xl mt-8">
                         specializing in{" "}
                         <div className="relative inline-block group">
-                            <span className="relative inline-block text-white transition-all duration-700 ease-in-out group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-sky-400 cursor-default group-hover:via-rose-400 group-hover:to-orange-400 group-hover:bg-[length:200%_100%] group-hover:animate-gradient-slide">
+                            <span className="relative inline-block text-white transition-all duration-700 ease-in-out group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#0AB5FF] cursor-default group-hover:via-[#FF7A9B] group-hover:to-[#FF7F17] group-hover:bg-[length:200%_100%] group-hover:animate-gradient-slide">
                                 Interaction
                             </span>
                             <span className="absolute left-0 -bottom-1 h-[2px] w-0 bg-white transition-all group-hover:w-full duration-300"></span>

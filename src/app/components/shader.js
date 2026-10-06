@@ -32,19 +32,9 @@ export default function Shader({
     vertexShader = DEFAULT_VERTEX,
     uniforms: customUniforms = EMPTY_UNIFORMS,
     className = "",
-    backgroundDarkness = 0,
 }) {
     const containerRef = useRef(null);
     const canvasRef = useRef(null);
-    const uniformsRef = useRef(null);
-    const backgroundDarknessRef = useRef(backgroundDarkness);
-    backgroundDarknessRef.current = backgroundDarkness;
-
-    useEffect(() => {
-        if (uniformsRef.current?.uDarkness) {
-            uniformsRef.current.uDarkness.value = backgroundDarkness;
-        }
-    }, [backgroundDarkness]);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -66,9 +56,7 @@ export default function Shader({
             uResolution: { value: new THREE.Vector2(1, 1) },
             uScroll: { value: 0 },
             ...customUniforms,
-            uDarkness: { value: backgroundDarknessRef.current },
         };
-        uniformsRef.current = uniforms;
 
         const geometry = new THREE.PlaneGeometry(2, 2);
         const material = new THREE.ShaderMaterial({
@@ -120,7 +108,6 @@ export default function Shader({
             geometry.dispose();
             material.dispose();
             renderer.dispose();
-            uniformsRef.current = null;
         };
     }, [fragmentShader, vertexShader, customUniforms]);
 

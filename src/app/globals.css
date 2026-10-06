@@ -32,7 +32,7 @@ body {
 .about-card {
     --mouse-x: 50%;
     --mouse-y: 50%;
-    --cursor-glow: rgba(37, 180, 240, 0.14);
+    --cursor-glow: rgba(10, 181, 255, 0.14);
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -65,18 +65,18 @@ body {
 }
 
 .about-card-top {
-    --card-gradient-start: #e48098;
-    --card-gradient-end: #b995c5;
+    --card-gradient-start: #FF7A9B;
+    --card-gradient-end: #0AB5FF;
 }
 
 .about-card-middle {
-    --card-gradient-start: #b995c5;
-    --card-gradient-end: #65a4da;
+    --card-gradient-start: #0AB5FF;
+    --card-gradient-end: #FF7F17;
 }
 
 .about-card-bottom {
-    --card-gradient-start: #65a4da;
-    --card-gradient-end: #25b4f0;
+    --card-gradient-start: #FF7F17;
+    --card-gradient-end: #FF7A9B;
 }
 
 .about-card-marker {

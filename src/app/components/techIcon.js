@@ -88,8 +88,8 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group inline-block mt-2 font-semibold text-sky-400 transition-colors duration-200
-                                   hover:text-pink-400 relative"
+                        className="group inline-block mt-2 font-semibold text-[#0AB5FF] transition-colors duration-200
+                                   hover:text-[#FF7A9B] relative"
                     >
                         Learn more
                     </a>

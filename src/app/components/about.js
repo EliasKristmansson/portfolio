@@ -78,7 +78,7 @@ const PROJECTS = [
         id: "project-06",
         name: "Audio Feedback in Gaming: How Audio Properties Shape Player Experience",
         badge: "RESEARCH PAPER",
-        color: "#59a4da",
+        color: "#0AB5FF",
         abstract: [
             "This study investigates how audio feedback in video games influences player experience, with a focus on four specific audio properties (Pitch, Loudness, ADSR Envelope, and Frequency Content) across three classic interactions: collecting an item, making a UI action, and taking damage.",
             "The study consisted of two phases, the data gathering phase and the audio analysis phase. The first phase involved the player test, where players chose the sounds to be investigated in the second phase. The resulting sounds were extracted and analyzed according to the four audio properties.",
@@ -425,9 +425,9 @@ export default function About() {
                     <div className="flex h-7 flex-shrink-0 items-center justify-between border-b border-midnight-light bg-midnight-dark/80 px-3">
                         <span className="text-[11px] tracking-wide text-white/50 space-mono-bold">Desktop</span>
                         <div className="flex gap-1.5">
-                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#e48098" }} />
-                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#25b4f0" }} />
-                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#fb923c" }} />
+                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#FF7A9B" }} />
+                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#0AB5FF" }} />
+                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#FF7F17" }} />
                         </div>
                     </div>
 
@@ -459,7 +459,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Minimize About window"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#25b4f0] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
                                             onClick={() => setAboutWindowMinimized(true)}
                                         >
                                             <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -467,7 +467,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Close About window"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#e48098] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#FF7A9B] hover:text-black"
                                             onClick={() => {
                                                 setAboutWindowOpen(false);
                                                 setAboutWindowMinimized(false);
@@ -538,7 +538,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Minimize Projects window"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#25b4f0] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
                                             onClick={() => setProjectsWindowMinimized(true)}
                                         >
                                             <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -548,7 +548,7 @@ export default function About() {
                                             aria-label={projectsWindowFullscreen ? "Restore Projects window" : "Fullscreen Projects window"}
                                             aria-pressed={projectsWindowFullscreen}
                                             title={projectsWindowFullscreen ? "Restore window" : "Fullscreen"}
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#25b4f0] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
                                             onClick={toggleProjectsWindowFullscreen}
                                         >
                                             {projectsWindowFullscreen
@@ -558,7 +558,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Close Projects window"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#e48098] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#FF7A9B] hover:text-black"
                                             onClick={() => {
                                                 setProjectsWindowOpen(false);
                                                 setProjectsWindowMinimized(false);
@@ -667,7 +667,7 @@ export default function About() {
                                                 href={activeProject.pdfUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="mt-3 inline-flex min-h-11 items-center gap-2 border border-white/30 px-4 py-2 text-xs text-white transition-colors hover:border-[#25b4f0] hover:bg-[#25b4f0] hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25b4f0] space-mono-bold"
+                                                className="mt-3 inline-flex min-h-11 items-center gap-2 border border-white/30 px-4 py-2 text-xs text-white transition-colors hover:border-[#0AB5FF] hover:bg-[#0AB5FF] hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0AB5FF] space-mono-bold"
                                             >
                                                 <FileText aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
                                                 Read full paper
@@ -680,7 +680,7 @@ export default function About() {
                                                         href={activeProject.link}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="ml-1 cursor-pointer text-[#25b4f0] underline decoration-[#25b4f0]/70 underline-offset-2 hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[#25b4f0]"
+                                                        className="ml-1 cursor-pointer text-[#0AB5FF] underline decoration-[#0AB5FF]/70 underline-offset-2 hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[#0AB5FF]"
                                                     >
                                                         Open the live app
                                                     </a>
@@ -727,7 +727,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Minimize Expertise folder"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#25b4f0] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
                                             onClick={() => setExpertiseWindowMinimized(true)}
                                         >
                                             <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -735,7 +735,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Close Expertise folder"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#e48098] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#FF7A9B] hover:text-black"
                                             onClick={() => {
                                                 setExpertiseWindowOpen(false);
                                                 setExpertiseWindowMinimized(false);
@@ -753,7 +753,7 @@ export default function About() {
                                                 key={logo.alt}
                                                 type="button"
                                                 title={`Open ${logo.alt} resource`}
-                                                className="flex min-h-24 cursor-pointer flex-col items-center justify-center gap-2 border border-transparent p-2 text-center transition-colors duration-100 hover:border-[#25b4f0] hover:bg-white/10"
+                                                className="flex min-h-24 cursor-pointer flex-col items-center justify-center gap-2 border border-transparent p-2 text-center transition-colors duration-100 hover:border-[#0AB5FF] hover:bg-white/10"
                                                 onDoubleClick={() => window.open(logo.link, "_blank", "noopener,noreferrer")}
                                             >
                                                 <i aria-hidden="true" className={`${logo.className} text-4xl text-white/80`} />
@@ -781,7 +781,7 @@ export default function About() {
                         {selectionBox && (
                             <div
                                 aria-hidden="true"
-                                className="pointer-events-none absolute z-10 border border-[#e48098] bg-[#e48098]/25"
+                                className="pointer-events-none absolute z-10 border border-[#FF7A9B] bg-[#FF7A9B]/25"
                                 style={selectionBox}
                             />
                         )}
@@ -819,7 +819,7 @@ export default function About() {
                             type="button"
                             className="flex cursor-pointer items-center gap-2 border border-white/40 px-3 py-1 text-xs text-white transition-colors duration-100 hover:bg-white hover:text-black space-mono-bold"
                         >
-                            <span className="h-2 w-2" style={{ backgroundColor: "#25b4f0" }} />
+                            <span className="h-2 w-2" style={{ backgroundColor: "#0AB5FF" }} />
                             Start
                         </button>
                         {(aboutWindowOpen || aboutWindowMinimized) && (
@@ -868,7 +868,7 @@ export default function About() {
                         )}
                         {clockTime && (
                             <span className="ml-auto flex items-center gap-2 text-xs text-white/70 space-mono-bold">
-                                <span className="h-1.5 w-1.5" style={{ backgroundColor: "#e48098" }} />
+                                <span className="h-1.5 w-1.5" style={{ backgroundColor: "#FF7A9B" }} />
                                 {clockTime}
                             </span>
                         )}
