@@ -39,12 +39,12 @@ const FEATURED_WORK = [
 
 export default function SelectedWork() {
     return (
-        <section id="selected-work" className=" p-20 text-white">
+        <section id="selected-work" className=" text-white">
             <div className="max-w-7xl">
-                <header className="mb-8">
+                <header className="mb-8 pt-20 pl-20 ">
                     <h2 className="text-7xl text-white space-mono-bold">Selected Work</h2>
                     <p className="text-md leading-relaxed text-white mt-2 space-grotesk">
-                        A few projects across games, wellbeing, and collaborative tools.
+                        The three projects I am the most proud of. Showcasing mobile, web development, collaboration, and design skills. See more on desktop
                     </p>
                 </header>
 
