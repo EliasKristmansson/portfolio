@@ -81,24 +81,21 @@ export default function DesktopIcon({
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onDoubleClick={() => onOpen?.(id)}
-            className="absolute flex w-24 cursor-pointer select-none flex-col items-center gap-1.5 p-2 text-center outline outline-1 outline-dotted outline-transparent transition-colors duration-100 hover:outline-[#FF7A9B]/70"
-            style={{
-                left: positions[id].x,
-                top: positions[id].y,
-                outlineOffset: "-1px",
-                backgroundColor: isSelected ? "rgba(10, 181, 255, 0.35)" : undefined,
-                outlineColor: isSelected ? "rgba(10, 181, 255, 0.9)" : undefined,
-            }}
-        >
-            <IconComponent
-                aria-hidden="true"
-                strokeWidth={1}
-                className="pointer-events-none h-10 w-10 text-white/90"
-            />
-            <span
-                className="pointer-events-none text-xs leading-tight text-white space-mono-bold"
-                style={{ backgroundColor: isSelected ? "rgba(10, 181, 255, 0.55)" : undefined }}
-            >
+            className={`absolute flex w-24 cursor-pointer select-none flex-col items-center gap-1.5 p-2 text-center outline outline-1 outline-dotted transition-colors duration-100 ${isSelected ? "bg-sky/40 outline-sky" : "outline-transparent hover:outline-rose/60"}`}
+                        style={{
+                            left: positions[id].x,
+                            top: positions[id].y,
+                            outlineOffset: "-1px",
+                        }}
+                    >
+                        <IconComponent
+                            aria-hidden="true"
+                            strokeWidth={1}
+                            className="pointer-events-none h-10 w-10 text-white/80"
+                        />
+                        <span
+                            className={`pointer-events-none text-xs leading-tight text-white space-mono-bold ${isSelected ? "bg-sky/60" : ""}`}
+                        >
                 {label}
             </span>
         </button>

@@ -23,7 +23,7 @@ export default function Home() {
 					<div className="relative z-10">
 						<Main />
 						<About />
-						{/* <SelectedWork /> */}
+						<SelectedWork />
 						<footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center"></footer>
 					</div>
 				</div>

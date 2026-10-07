@@ -81,15 +81,15 @@ export default function TechIcon({ iconClass, name, description, link, setCarous
                     setCarouselPaused?.(false);
                 }}
             >
-                <div className="relative z-10 p-3 w-full bg-midnight-dark text-gray-300 border border-midnight-light space-grotesk">
+                <div className="relative z-10 p-3 w-full bg-midnight-dark text-white/80 border border-midnight-light space-grotesk">
                     <p className="font-bold">{name}</p>
                     <p className="text-sm mt-1">{description}</p>
                     <a
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group inline-block mt-2 font-semibold text-[#0AB5FF] transition-colors duration-200
-                                   hover:text-[#FF7A9B] relative"
+                        className="group inline-block mt-2 font-semibold                         text-sky transition-colors duration-200
+                                   hover:text-rose relative"
                     >
                         Learn more
                     </a>

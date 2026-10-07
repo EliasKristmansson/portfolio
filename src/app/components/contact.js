@@ -73,13 +73,13 @@ export default function Contact({ containerRef, isMinimized, isOpen, onClose, on
             ref={windowRef}
             aria-labelledby="contact-window-title"
             aria-modal="false"
-            className={`absolute max-h-[calc(100%-2rem)] w-[min(30rem,calc(100%-2rem))] overflow-y-auto border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${isMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"} ${position ? "" : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"}`}
+            className={`absolute max-h-[calc(100%-2rem)] w-[min(30rem,calc(100%-2rem))] overflow-y-auto border border-white/60 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${isMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"} ${position ? "" : "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"}`}
             style={{ zIndex, ...(position ? { left: position.x, top: position.y } : {}) }}
             onPointerDown={(event) => event.stopPropagation()}
             role="dialog"
         >
             <div
-                className="flex h-9 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
+                className="flex h-9 cursor-move items-center justify-between border-b border-white/40 bg-midnight-dark/95 px-3"
                 onPointerDown={handleDragStart}
                 onPointerMove={handleDrag}
                 onPointerUp={handleDragEnd}
@@ -90,7 +90,7 @@ export default function Contact({ containerRef, isMinimized, isOpen, onClose, on
                     <button
                         type="button"
                         aria-label="Minimize Contact window"
-                        className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
+                        className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/80 transition-colors duration-100 hover:bg-sky hover:text-black"
                         onClick={onMinimize}
                     >
                         <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -98,7 +98,7 @@ export default function Contact({ containerRef, isMinimized, isOpen, onClose, on
                     <button
                         type="button"
                         aria-label="Close Contact window"
-                        className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#FF7A9B] hover:text-black"
+                        className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/80 transition-colors duration-100 hover:bg-rose hover:text-black"
                         onClick={handleClose}
                     >
                         <X aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -111,7 +111,7 @@ export default function Contact({ containerRef, isMinimized, isOpen, onClose, on
                     {CONTACT_EMAIL}
                     <span aria-hidden="true" className="absolute left-0 -bottom-1 h-[1px] w-0 bg-white transition-all group-hover:w-full" />
                 </a>
-                <div className="flex flex-wrap items-center gap-2 border-t border-white/15 pt-4">
+                <div className="flex flex-wrap items-center gap-2 border-t border-white/20 pt-4">
                     <button
                         className="inline-flex min-h-10 cursor-pointer items-center gap-2 border border-white/40 px-4 py-2 text-xs text-white transition-colors hover:bg-white hover:text-black space-mono-bold"
                         onClick={handleCopyEmail}
@@ -130,7 +130,7 @@ export default function Contact({ containerRef, isMinimized, isOpen, onClose, on
                         Email me
                     </a>
                     {copyStatus !== "idle" && (
-                        <p aria-live="polite" className="min-h-4 text-xs text-white/55 space-mono-regular">
+                        <p aria-live="polite" className="min-h-4 text-xs text-white/60 space-mono-regular">
                             {copyStatus === "copied" ? "Copied to clipboard." : "Copy unavailable."}
                         </p>
                     )}

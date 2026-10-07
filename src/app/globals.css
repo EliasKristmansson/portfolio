@@ -11,10 +11,19 @@ html {
     --foreground: #171717;
 }
 
-@theme {
+/* Opacity scale used across the site: 10 / 20 / 40 / 60 / 80 (e.g. text-white/60, border-white/20) */
+@theme static {
     --color-midnight: #18181b;
     --color-midnight-dark: #0e0e0f;
     --color-midnight-light: #2e2e34;
+    --color-sky: #0AB5FF;
+    --color-rose: #FF7A9B;
+    --color-amber: #FF7F17;
+}
+
+.bg-dots {
+    background-image: radial-gradient(rgb(255 255 255 / 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,7 +41,7 @@ body {
 .about-card {
     --mouse-x: 50%;
     --mouse-y: 50%;
-    --cursor-glow: rgba(10, 181, 255, 0.14);
+    --cursor-glow: rgb(10 181 255 / 0.14);
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -65,18 +74,18 @@ body {
 }
 
 .about-card-top {
-    --card-gradient-start: #FF7A9B;
-    --card-gradient-end: #0AB5FF;
+    --card-gradient-start: var(--color-rose);
+    --card-gradient-end: var(--color-sky);
 }
 
 .about-card-middle {
-    --card-gradient-start: #0AB5FF;
-    --card-gradient-end: #FF7F17;
+    --card-gradient-start: var(--color-sky);
+    --card-gradient-end: var(--color-amber);
 }
 
 .about-card-bottom {
-    --card-gradient-start: #FF7F17;
-    --card-gradient-end: #FF7A9B;
+    --card-gradient-start: var(--color-amber);
+    --card-gradient-end: var(--color-rose);
 }
 
 .about-card-marker {
@@ -119,6 +128,34 @@ body {
     font-family: "Space Mono", monospace;
     font-weight: 700;
     font-style: italic;
+}
+
+@keyframes glow-drift {
+    0% {
+        background-position: 0% 30%, 100% 70%, 50% 0%;
+    }
+
+    50% {
+        background-position: 100% 70%, 0% 30%, 50% 100%;
+    }
+
+    100% {
+        background-position: 0% 30%, 100% 70%, 50% 0%;
+    }
+}
+
+/* Wispy sunset-toned glow painted through the heading's letterforms */
+.heading-glow {
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size: 220% 220%, 200% 200%, 240% 240%;
+    background-color: #6a2c22;
+    background-image:
+        radial-gradient(ellipse at 30% 40%, #c2561a 0%, transparent 70%),
+        radial-gradient(ellipse at 70% 60%, #a23352 0%, transparent 70%),
+        radial-gradient(ellipse at 50% 50%, #2f6a9a 0%, transparent 75%);
+    animation: glow-drift 18s ease-in-out infinite;
 }
 
 @keyframes gradientShift {

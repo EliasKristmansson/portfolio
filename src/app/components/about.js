@@ -163,6 +163,16 @@ export default function About() {
     const [clockTime, setClockTime] = useState(null);
 
     useEffect(() => {
+        const handleOpenProject = (event) => {
+            openProjectsWindow();
+            setSelectedProject(event.detail.id);
+            setSelectedProjectImage(0);
+        };
+        window.addEventListener("open-project", handleOpenProject);
+        return () => window.removeEventListener("open-project", handleOpenProject);
+    }, []);
+
+    useEffect(() => {
         const updateClock = () => {
             setClockTime(new Date().toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" }));
         };
@@ -420,20 +430,15 @@ export default function About() {
             <div className="border border-white lg:min-h-[700px] grid grid-cols-1 gap-14 items-stretch">
                 <div
                     ref={desktopRef}
-                    className="relative flex h-full min-h-[600px] w-full flex-col overflow-hidden border border-white/40"
-                    style={{
-                        backgroundColor: "#0e0e0f",
-                        backgroundImage: "radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px)",
-                        backgroundSize: "24px 24px",
-                    }}
+                    className="bg-dots relative flex h-full min-h-[600px] w-full flex-col overflow-hidden border border-white/40 bg-midnight-dark"
                 >
                     {/* Titelbar — tunn rad högst upp, hintar "fönster" utan att bli skeuomorfisk */}
-                    <div className="flex h-7 flex-shrink-0 items-center justify-between border-b border-midnight-light bg-midnight-dark/80 px-3">
-                        <span className="text-[11px] tracking-wide text-white/50 space-mono-bold">Desktop</span>
+                    <div className="flex h-7 flex-shrink-0 items-center justify-between border-b border-midnight-light bg-midnight-dark/95 px-3">
+                        <span className="text-[11px] tracking-wide text-white/60 space-mono-bold">Desktop</span>
                         <div className="flex gap-1.5">
-                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#FF7A9B" }} />
-                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#0AB5FF" }} />
-                            <span className="h-2.5 w-2.5 border" style={{ borderColor: "#FF7F17" }} />
+                            <span className="h-2.5 w-2.5 border border-rose" />
+                            <span className="h-2.5 w-2.5 border border-sky" />
+                            <span className="h-2.5 w-2.5 border border-amber" />
                         </div>
                     </div>
 
@@ -450,11 +455,11 @@ export default function About() {
                             <section
                                 ref={aboutWindowRef}
                                 aria-label="About information window"
-                                className={`absolute w-[min(34rem,calc(100%-2rem))] origin-bottom-left border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${aboutWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                className={`absolute w-[min(34rem,calc(100%-2rem))] origin-bottom-left border border-white/60 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${aboutWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
                                 style={{ left: aboutWindowPosition.x, top: aboutWindowPosition.y, width: aboutWindowSize.width, height: aboutWindowSize.height, zIndex: getWindowZIndex("about") }}
                             >
                                 <div
-                                    className="flex h-9 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
+                                    className="flex h-9 cursor-move items-center justify-between                                     border-b border-white/40 bg-midnight-dark/95 px-3"
                                     onPointerDown={handleWindowDragStart}
                                     onPointerMove={handleWindowDrag}
                                     onPointerUp={handleWindowDragEnd}
@@ -465,7 +470,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Minimize About window"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center                                             text-white/80 transition-colors duration-100 hover:bg-sky hover:text-black"
                                             onClick={() => setAboutWindowMinimized(true)}
                                         >
                                             <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -473,7 +478,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Close About window"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#FF7A9B] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center                                             text-white/80 transition-colors duration-100 hover:bg-rose hover:text-black"
                                             onClick={() => {
                                                 setAboutWindowOpen(false);
                                                 setAboutWindowMinimized(false);
@@ -539,11 +544,11 @@ export default function About() {
                             <section
                                 ref={projectsWindowRef}
                                 aria-label="Projects folder"
-                                className={`absolute flex ${projectsWindowFullscreen ? "inset-0 h-full w-full" : "max-h-[calc(100%-2rem)] w-[min(58rem,calc(100%-2rem))]"} flex-col overflow-hidden border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${projectsWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                className={`absolute flex ${projectsWindowFullscreen ? "inset-0 h-full w-full" : "max-h-[calc(100%-2rem)] w-[min(58rem,calc(100%-2rem))]"} flex-col overflow-hidden border border-white/60 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${projectsWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
                                 style={{ zIndex: getWindowZIndex("projects"), ...(projectsWindowFullscreen ? {} : { left: projectsWindowPosition.x, top: projectsWindowPosition.y }) }}
                             >
                                 <div
-                                    className="flex h-9 shrink-0 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
+                                    className="flex h-9 shrink-0 cursor-move items-center justify-between                                     border-b border-white/40 bg-midnight-dark/95 px-3"
                                     onPointerDown={handleProjectsWindowDragStart}
                                     onPointerMove={handleProjectsWindowDrag}
                                     onPointerUp={handleProjectsWindowDragEnd}
@@ -554,7 +559,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Minimize Projects window"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center                                             text-white/80 transition-colors duration-100 hover:bg-sky hover:text-black"
                                             onClick={() => setProjectsWindowMinimized(true)}
                                         >
                                             <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -564,7 +569,7 @@ export default function About() {
                                             aria-label={projectsWindowFullscreen ? "Restore Projects window" : "Fullscreen Projects window"}
                                             aria-pressed={projectsWindowFullscreen}
                                             title={projectsWindowFullscreen ? "Restore window" : "Fullscreen"}
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center                                             text-white/80 transition-colors duration-100 hover:bg-sky hover:text-black"
                                             onClick={toggleProjectsWindowFullscreen}
                                         >
                                             {projectsWindowFullscreen
@@ -574,7 +579,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Close Projects window"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#FF7A9B] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center                                             text-white/80 transition-colors duration-100 hover:bg-rose hover:text-black"
                                             onClick={() => {
                                                 setProjectsWindowOpen(false);
                                                 setProjectsWindowMinimized(false);
@@ -588,14 +593,14 @@ export default function About() {
                                     </div>
                                 </div>
                                 <div className="grid min-h-0 flex-1 grid-cols-1 overflow-y-auto sm:min-h-[25rem] sm:grid-cols-[13rem_minmax(0,1fr)]">
-                                    <aside className="border-b border-white/15 p-3 sm:border-b-0 sm:border-r">
+                                    <aside className="border-b border-white/20 p-3 sm:border-b-0 sm:border-r">
                                         <div className="flex gap-1 overflow-x-auto sm:flex-col sm:overflow-visible">
                                             {PROJECTS.map((project, index) => (
                                                 <button
                                                     key={project.id}
                                                     type="button"
                                                     aria-pressed={selectedProject === project.id}
-                                                    className={`flex min-w-36 flex-1 cursor-pointer items-center gap-2 border px-2 py-3 text-left transition-colors sm:min-w-0 ${selectedProject === project.id ? "border-white/40 bg-white/10 text-white" : "border-transparent text-white/60 hover:border-white/20 hover:bg-white/5 hover:text-white"}`}
+                                                    className={`flex min-w-36 flex-1 cursor-pointer items-center gap-2 border px-2 py-3 text-left transition-colors sm:min-w-0 ${selectedProject === project.id ? "border-white/40 bg-white/10 text-white" : "border-transparent text-white/60 hover:border-white/20 hover:bg-white/10 hover:text-white"}`}
                                                     onClick={() => {
                                                         setSelectedProject(project.id);
                                                         setSelectedProjectImage(0);
@@ -614,39 +619,39 @@ export default function About() {
                                             <div className="min-w-0">
                                                 <h2 className="mt-1 truncate text-lg text-white space-mono-bold">{activeProject.name}</h2>
                                             </div>
-                                            <span className="shrink-0 border border-white/20 px-2 py-1 text-[10px] text-white/50 space-mono-regular">{activeProject.badge}</span>
+                                            <span className="shrink-0 border border-white/20 px-2 py-1 text-[10px] text-white/60 space-mono-regular">{activeProject.badge}</span>
                                         </div>
 
                                         <div
-                                            className={`relative border border-white/20 ${activeProject.abstract ? "bg-midnight-dark" : "bg-[#111216]"} ${activeProject.abstract ? `flex flex-col ${projectsWindowFullscreen ? "min-h-[min(70vh,38rem)] flex-1" : "min-h-[22rem]"}` : `flex items-center justify-center overflow-hidden ${activeProject.previewMode === "portrait" ? "h-[22rem] sm:h-[24rem]" : "aspect-[16/7] min-h-36"}`}`}
-                                            style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px)", backgroundSize: "18px 18px" }}
+                                            className={`bg-dots relative border border-white/20 bg-midnight-dark ${activeProject.abstract ? `flex flex-col ${projectsWindowFullscreen ? "min-h-[min(70vh,38rem)] flex-1" : "min-h-[22rem]"}` : `flex items-center justify-center overflow-hidden ${activeProject.previewMode === "portrait" ? "h-[22rem] sm:h-[24rem]" : "aspect-[16/7] min-h-36"}`}`}
+                                            style={{ backgroundSize: "18px 18px" }}
                                         >
-                                            <div className="absolute inset-x-0 top-0 z-20 flex h-7 items-center gap-1.5 border-b border-white/10 bg-midnight-dark/95 px-3">
+                                            <div className="absolute inset-x-0 top-0 z-20 flex h-7 items-center gap-1.5 border-b border-white/20 bg-midnight-dark/95 px-3">
                                                 <span className="h-2 w-2 border" style={{ borderColor: activeProject.color }} />
-                                                <span className="h-2 w-2 border border-white/30" />
-                                                <span className="h-2 w-2 border border-white/30" />
+                                                <span className="h-2 w-2 border border-white/40" />
+                                                <span className="h-2 w-2 border border-white/40" />
                                             </div>
                                             {activeProject.abstract ? (
                                                 <div className="relative z-10 flex flex-1 flex-col px-5 pb-5 pt-12 sm:px-8 sm:pb-7 sm:pt-14">
                                                     <div className="mx-auto grid w-full flex-1 grid-cols-1 content-start gap-8 xl:grid-cols-[minmax(0,1fr)_10rem]">
                                                         <article className="w-full max-w-[82ch]">
-                                                            <h3 className="mb-4 text-xs text-white/50 space-mono-bold">Abstract</h3>
+                                                            <h3 className="mb-4 text-xs text-white/60 space-mono-bold">Abstract</h3>
                                                             <div className="space-y-4">
                                                                 {activeProject.abstract.map((paragraph) => (
-                                                                    <p key={paragraph} className="text-sm leading-relaxed text-white/85 space-grotesk">{paragraph}</p>
+                                                                    <p key={paragraph} className="text-sm leading-relaxed text-white/80 space-grotesk">{paragraph}</p>
                                                                 ))}
                                                             </div>
                                                         </article>
-                                                        <aside className="flex flex-col gap-7 border-t border-white/15 pt-5 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
+                                                        <aside className="flex flex-col gap-7 border-t border-white/20 pt-5 xl:border-l xl:border-t-0 xl:pl-6 xl:pt-0">
                                                             <section>
-                                                                <h4 className="mb-2 text-[10px] text-white/45 space-mono-bold">AUDIO PROPERTIES</h4>
-                                                                <ul className="space-y-2 text-xs text-white/75 space-mono-regular">
+                                                                <h4 className="mb-2 text-[10px] text-white/60 space-mono-bold">AUDIO PROPERTIES</h4>
+                                                                <ul className="space-y-2 text-xs text-white/80 space-mono-regular">
                                                                     {activeProject.audioProperties.map((property) => <li key={property}>{property}</li>)}
                                                                 </ul>
                                                             </section>
                                                             <section>
-                                                                <h4 className="mb-2 text-[10px] text-white/45 space-mono-bold">TEST INTERACTIONS</h4>
-                                                                <ul className="space-y-2 text-xs leading-relaxed text-white/75 space-mono-regular">
+                                                                <h4 className="mb-2 text-[10px] text-white/60 space-mono-bold">TEST INTERACTIONS</h4>
+                                                                <ul className="space-y-2 text-xs leading-relaxed text-white/80 space-mono-regular">
                                                                     {activeProject.interactions.map((interaction) => <li key={interaction}>{interaction}</li>)}
                                                                 </ul>
                                                             </section>
@@ -671,7 +676,7 @@ export default function About() {
                                                             <div className="mb-2 h-2 w-24 max-w-full bg-white/60" />
                                                             <div className="mb-1.5 h-1 w-32 max-w-full bg-white/20" />
                                                             <div className="h-1 w-20 max-w-full bg-white/20" />
-                                                            <p className="mt-3 text-[10px] text-white/45 space-mono-regular">Add project image here</p>
+                                                            <p className="mt-3 text-[10px] text-white/60 space-mono-regular">Add project image here</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -683,20 +688,20 @@ export default function About() {
                                                 href={activeProject.pdfUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="mt-3 inline-flex min-h-11 items-center gap-2 border border-white/30 px-4 py-2 text-xs text-white transition-colors hover:border-[#0AB5FF] hover:bg-[#0AB5FF] hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0AB5FF] space-mono-bold"
+                                                className="mt-3 inline-flex min-h-11 items-center gap-2 border border-white/40 px-4 py-2 text-xs text-white transition-colors hover:border-sky hover:bg-sky hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky space-mono-bold"
                                             >
                                                 <FileText aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
                                                 Read full paper
                                             </a>
                                         ) : (
-                                            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/65 space-grotesk">
+                                            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/60 space-grotesk">
                                                 {activeProject.description}
                                                 {activeProject.link && (
                                                     <a
                                                         href={activeProject.link}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="ml-1 cursor-pointer text-[#0AB5FF] underline decoration-[#0AB5FF]/70 underline-offset-2 hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-[#0AB5FF]"
+                                                        className="ml-1 cursor-pointer text-sky underline decoration-sky/60 underline-offset-2 hover:text-white focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-sky"
                                                     >
                                                         Open the live app
                                                     </a>
@@ -711,7 +716,7 @@ export default function About() {
                                                         type="button"
                                                         aria-label={`Show image ${index + 1}: ${image.alt}`}
                                                         aria-pressed={selectedProjectImage === index}
-                                                        className={`h-14 w-20 shrink-0 cursor-pointer overflow-hidden border ${selectedProjectImage === index ? "border-white/80" : "border-white/20 hover:border-white/50"}`}
+                                                        className={`h-14 w-20 shrink-0 cursor-pointer overflow-hidden border ${selectedProjectImage === index ? "border-white/60" : "border-white/20 hover:border-white/40"}`}
                                                         onClick={() => setSelectedProjectImage(index)}
                                                     >
                                                         <img src={image.src} alt="" className="h-full w-full object-cover" />
@@ -728,11 +733,11 @@ export default function About() {
                             <section
                                 ref={expertiseWindowRef}
                                 aria-label="Expertise folder"
-                                className={`absolute w-[min(38rem,calc(100%-2rem))] border border-white/70 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${expertiseWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
+                                className={`absolute w-[min(38rem,calc(100%-2rem))] border border-white/60 bg-midnight-dark text-white shadow-2xl transition-[opacity,transform] duration-300 ease-in-out ${expertiseWindowMinimized ? "pointer-events-none scale-0 opacity-0" : "scale-100 opacity-100"}`}
                                 style={{ left: expertiseWindowPosition.x, top: expertiseWindowPosition.y, zIndex: getWindowZIndex("expertise") }}
                             >
                                 <div
-                                    className="flex h-9 cursor-move items-center justify-between border-b border-white/50 bg-midnight-dark/95 px-3"
+                                    className="flex h-9 cursor-move items-center justify-between                                     border-b border-white/40 bg-midnight-dark/95 px-3"
                                     onPointerDown={handleExpertiseWindowDragStart}
                                     onPointerMove={handleExpertiseWindowDrag}
                                     onPointerUp={handleExpertiseWindowDragEnd}
@@ -743,7 +748,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Minimize Expertise folder"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#0AB5FF] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center                                             text-white/80 transition-colors duration-100 hover:bg-sky hover:text-black"
                                             onClick={() => setExpertiseWindowMinimized(true)}
                                         >
                                             <Minus aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
@@ -751,7 +756,7 @@ export default function About() {
                                         <button
                                             type="button"
                                             aria-label="Close Expertise folder"
-                                            className="flex h-7 w-7 cursor-pointer items-center justify-center text-white/70 transition-colors duration-100 hover:bg-[#FF7A9B] hover:text-black"
+                                            className="flex h-7 w-7 cursor-pointer items-center justify-center                                             text-white/80 transition-colors duration-100 hover:bg-rose hover:text-black"
                                             onClick={() => {
                                                 setExpertiseWindowOpen(false);
                                                 setExpertiseWindowMinimized(false);
@@ -769,7 +774,7 @@ export default function About() {
                                                 key={logo.alt}
                                                 type="button"
                                                 title={`Open ${logo.alt} resource`}
-                                                className="flex min-h-24 cursor-pointer flex-col items-center justify-center gap-2 border border-transparent p-2 text-center transition-colors duration-100 hover:border-[#0AB5FF] hover:bg-white/10"
+                                                className="flex min-h-24 cursor-pointer flex-col items-center justify-center gap-2 border border-transparent p-2 text-center transition-colors duration-100 hover:border-sky hover:bg-white/10"
                                                 onDoubleClick={() => window.open(logo.link, "_blank", "noopener,noreferrer")}
                                             >
                                                 <i aria-hidden="true" className={`${logo.className} text-4xl text-white/80`} />
@@ -797,7 +802,7 @@ export default function About() {
                         {selectionBox && (
                             <div
                                 aria-hidden="true"
-                                className="pointer-events-none absolute z-10 border border-[#FF7A9B] bg-[#FF7A9B]/25"
+                                className="pointer-events-none absolute z-10 border border-rose bg-rose/20"
                                 style={selectionBox}
                             />
                         )}
@@ -835,7 +840,7 @@ export default function About() {
                             type="button"
                             className="flex cursor-pointer items-center gap-2 border border-white/40 px-3 py-1 text-xs text-white transition-colors duration-100 hover:bg-white hover:text-black space-mono-bold"
                         >
-                            <span className="h-2 w-2" style={{ backgroundColor: "#0AB5FF" }} />
+                            <span className="h-2 w-2 bg-sky" />
                             Start
                         </button>
                         {(aboutWindowOpen || aboutWindowMinimized) && (
@@ -843,7 +848,7 @@ export default function About() {
                                 type="button"
                                 aria-label="Open About window"
                                 onClick={openAboutWindow}
-                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${aboutWindowOpen ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
+                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${aboutWindowOpen ? "border-white/60 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
                             >
                                 <FileText aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
                                 About Me.txt
@@ -854,7 +859,7 @@ export default function About() {
                                 type="button"
                                 aria-label="Open Contact window"
                                 onClick={openContactWindow}
-                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${contactWindowOpen && !contactWindowMinimized ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
+                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${contactWindowOpen && !contactWindowMinimized ? "border-white/60 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
                             >
                                 <Mail aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
                                 Contact
@@ -865,7 +870,7 @@ export default function About() {
                                 type="button"
                                 aria-label="Open Expertise folder"
                                 onClick={openExpertiseWindow}
-                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${expertiseWindowOpen ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
+                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${expertiseWindowOpen ? "border-white/60 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
                             >
                                 <Blocks aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
                                 Expertise
@@ -876,15 +881,15 @@ export default function About() {
                                 type="button"
                                 aria-label="Open Projects window"
                                 onClick={openProjectsWindow}
-                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${projectsWindowOpen && !projectsWindowMinimized ? "border-white/70 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
+                                className={`flex cursor-pointer items-center gap-2 border px-3 py-1 text-xs transition-colors duration-100 space-mono-bold ${projectsWindowOpen && !projectsWindowMinimized ? "border-white/60 bg-white/10 text-white" : "border-white/40 text-white/60 hover:bg-white hover:text-black"}`}
                             >
                                 <Folder aria-hidden="true" className="h-3 w-3" strokeWidth={1.5} />
                                 Projects
                             </button>
                         )}
                         {clockTime && (
-                            <span className="ml-auto flex items-center gap-2 text-xs text-white/70 space-mono-bold">
-                                <span className="h-1.5 w-1.5" style={{ backgroundColor: "#FF7A9B" }} />
+                            <span className="ml-auto flex items-center gap-2                             text-xs text-white/80 space-mono-bold">
+                                <span className="h-1.5 w-1.5 bg-rose" />
                                 {clockTime}
                             </span>
                         )}

@@ -48,7 +48,7 @@ export default function Header() {
     return (
         <header
             ref={headerRef}
-            className="sticky top-0 z-[1000] bg-midnight-dark/80 text-white p-6 border-b border-midnight-light flex h-18 items-center justify-between"
+            className="sticky top-0 z-[1000] bg-midnight-dark/95 text-white p-6 border-b border-midnight-light flex h-18 items-center justify-between"
             style={{ transform: `translateY(-${headerOffset}px)` }}
         >
             <div className="relative flex items-center gap-3 cursor-pointer group">
@@ -83,14 +83,14 @@ export default function Header() {
                     id="header-profile-photo"
                     hidden={!profileOpen}
                     aria-hidden={!profileOpen}
-                    className="absolute right-0 top-full z-20 w-48 overflow-hidden border border-white/70 bg-midnight-dark shadow-2xl"
+                    className="absolute right-0 top-full z-20 w-48 overflow-hidden border border-white/60 bg-midnight-dark shadow-2xl"
                 >
-                    <div className="flex h-7 items-center justify-between border-b border-midnight-light bg-midnight-dark/95 px-3">
-                        <span className="space-mono-bold text-[11px] tracking-wide text-white/70">thats_me.png</span>
+                    <div className="flex h-7 items-center justify-between                     border-b border-white/40 bg-midnight-dark/95 px-3">
+                        <span className="space-mono-bold text-[11px] tracking-wide text-white/80">thats_me.png</span>
                         <div aria-hidden="true" className="flex gap-1.5">
-                            <span className="h-2.5 w-2.5 border border-[#FF7A9B]" />
-                            <span className="h-2.5 w-2.5 border border-[#0AB5FF]" />
-                            <span className="h-2.5 w-2.5 border border-white/50" />
+                            <span className="h-2.5 w-2.5                             border border-rose" />
+                                                        <span className="h-2.5 w-2.5 border border-sky" />
+                                                        <span className="h-2.5 w-2.5 border border-white/40" />
                         </div>
                     </div>
                     <div className="relative aspect-square w-full bg-midnight-dark">
