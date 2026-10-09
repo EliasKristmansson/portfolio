@@ -88,7 +88,10 @@ export default function Shader({
         }
         scrollContainer?.addEventListener("scroll", handleScroll, { passive: true });
 
-        let frameId;
+        // Rita bara medan canvasen syns och fliken är aktiv — sidan kör flera
+        // WebGL-kontexter samtidigt och resten av tiden är de rent slöseri.
+        let frameId = 0;
+        let inView = true;
         const startTime = performance.now();
 
         function animate(timestamp) {
@@ -96,13 +99,32 @@ export default function Shader({
             renderer.render(scene, camera);
             frameId = requestAnimationFrame(animate);
         }
-        animate();
+
+        function syncLoop() {
+            const shouldRun = inView && !document.hidden;
+            if (shouldRun && !frameId) {
+                frameId = requestAnimationFrame(animate);
+            } else if (!shouldRun && frameId) {
+                cancelAnimationFrame(frameId);
+                frameId = 0;
+            }
+        }
+
+        const visibilityObserver = new IntersectionObserver(([entry]) => {
+            inView = entry.isIntersecting;
+            syncLoop();
+        });
+        visibilityObserver.observe(container);
+        document.addEventListener("visibilitychange", syncLoop);
+        syncLoop();
 
         // Städning. Kritiskt i Next.js dev-läge — utan detta läcker varje
         // hot-reload en ny WebGL-kontext tills webbläsaren säger ifrån
         // ("Too many active WebGL contexts").
         return () => {
             cancelAnimationFrame(frameId);
+            visibilityObserver.disconnect();
+            document.removeEventListener("visibilitychange", syncLoop);
             resizeObserver.disconnect();
             scrollContainer?.removeEventListener("scroll", handleScroll);
             geometry.dispose();

@@ -19,11 +19,13 @@ export default function DesktopIcon({
     containerRef,
 }) {
     const dragState = useRef(null);
+    const pointerType = useRef("mouse");
 
     const handlePointerDown = useCallback((event) => {
         // Hindra att klicket bubblar upp till skrivbordets egen
         // "klick på tomt utrymme -> avmarkera allt"-hanterare.
         event.stopPropagation();
+        pointerType.current = event.pointerType;
         if (!isSelected) onSelect(id);
 
         const container = containerRef.current;
@@ -73,6 +75,11 @@ export default function DesktopIcon({
         dragState.current = null;
     }, []);
 
+    // Mus öppnar med dubbelklick; touch och tangentbord (detail === 0) öppnar direkt
+    const handleClick = (event) => {
+        if (event.detail === 0 || pointerType.current !== "mouse") onOpen?.(id);
+    };
+
     return (
         <button
             type="button"
@@ -80,22 +87,23 @@ export default function DesktopIcon({
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
+            onClick={handleClick}
             onDoubleClick={() => onOpen?.(id)}
             className={`absolute flex w-24 cursor-pointer select-none flex-col items-center gap-1.5 p-2 text-center outline outline-1 outline-dotted transition-colors duration-100 ${isSelected ? "bg-sky/40 outline-sky" : "outline-transparent hover:outline-rose/60"}`}
-                        style={{
-                            left: positions[id].x,
-                            top: positions[id].y,
-                            outlineOffset: "-1px",
-                        }}
-                    >
-                        <IconComponent
-                            aria-hidden="true"
-                            strokeWidth={1}
-                            className="pointer-events-none h-10 w-10 text-white/80"
-                        />
-                        <span
-                            className={`pointer-events-none text-xs leading-tight text-white space-mono-bold ${isSelected ? "bg-sky/60" : ""}`}
-                        >
+            style={{
+                left: positions[id].x,
+                top: positions[id].y,
+                outlineOffset: "-1px",
+            }}
+        >
+            <IconComponent
+                aria-hidden="true"
+                strokeWidth={1}
+                className="pointer-events-none h-10 w-10 text-white/80"
+            />
+            <span
+                className={`pointer-events-none text-xs leading-tight text-white space-mono-bold ${isSelected ? "bg-sky/60" : ""}`}
+            >
                 {label}
             </span>
         </button>

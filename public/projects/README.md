@@ -1,6 +1,6 @@
 # Project images
 
-Add each project's PNG, JPG, or WebP images to its matching folder (`project-01` through `project-06`). Then list the image paths in that project's `images` array in `src/app/components/about.js`.
+Add each project's PNG, JPG, or WebP images to its matching folder (`project-01` through `project-06`). Then list the image paths in that project's `images` array in `src/app/data/projects.js`.
 
 Example for `public/projects/project-01/songfrontation-cover.png`:
 

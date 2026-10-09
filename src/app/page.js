@@ -1,3 +1,4 @@
+import Footer from "./components/footer.js";
 import Header from "./components/header.js";
 import Main from "./components/main.js";
 import About from "./components/about.js";
@@ -7,7 +8,7 @@ import { exampleFragment } from "./components/shaders/example.js";
 
 export default function Home() {
 	return (
-		<div data-scroll-container className="max-h-screen overflow-y-auto
+		<div data-scroll-container className="h-dvh overflow-y-auto motion-safe:scroll-smooth
 					[&::-webkit-scrollbar]:w-3
 					[&::-webkit-scrollbar-thumb]:border-2
 					[&::-webkit-scrollbar-thumb]:border-solid
@@ -19,14 +20,12 @@ export default function Home() {
 			<Shader fragmentShader={exampleFragment} className="fixed inset-0 -z-10" />
 			<div className="relative z-10 box-border space-grotesk">
 				<Header />
-				<div className="relative isolate overflow-hidden">
-					<div className="relative z-10">
-						<Main />
-						<About />
-						<SelectedWork />
-						<footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center"></footer>
-					</div>
-				</div>
+				<main className="relative isolate overflow-hidden">
+					<Main />
+					<About />
+					<SelectedWork />
+				</main>
+				<Footer />
 			</div>
 		</div>
 	);

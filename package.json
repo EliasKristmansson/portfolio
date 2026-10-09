@@ -6,22 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint src"
   },
   "dependencies": {
-    "@iconify/react": "^6.0.0",
     "lucide-react": "^0.513.0",
     "next": "^16.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-scrollbar": "^4.0.2",
     "three": "^0.186.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
-    "eslint-config-next": "15.3.3",
+    "eslint-config-next": "^16.4.0",
     "tailwindcss": "^4"
   }
 }
+

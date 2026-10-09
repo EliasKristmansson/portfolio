@@ -2,10 +2,10 @@
 const SUN_X = 0.84;
 
 // Horisontens läge som andel av sektionens höjd (uppifrån)
-const HORIZON_FRAC = 0.53;
+const HORIZON_FRAC = 0.78;
 
 // Hur mycket lägre horisonten ligger i mitten än vid sidokanterna (andel av höjden)
-const ARCH_FRAC = 0.18;
+const ARCH_FRAC = 0.06;
 
 // Mest ogenomskinliga himlen; under 1 så att nattstjärnorna syns genom den
 const MAX_SKY_ALPHA = 0.96;
@@ -17,6 +17,7 @@ export const sunsetFragment = `
   varying vec2 vUv;
   uniform float uTime;
   uniform vec2 uResolution;
+  uniform float uProgress;
 
   const float SUN_X = ${SUN_X.toFixed(3)};
   const float HORIZON_FRAC = ${HORIZON_FRAC.toFixed(3)};
@@ -64,6 +65,10 @@ export const sunsetFragment = `
     float aspect = uResolution.x / uResolution.y;
     float x = vUv.x;
     float t = uTime * ${DRIFT_SPEED.toFixed(3)};
+    float p = clamp(uProgress, 0.0, 1.0);
+    float rosePhase  = smoothstep(0.15, 0.70, p);
+    float amberPhase = smoothstep(0.35, 1.00, p);
+    float sunRise    = smoothstep(0.30, 1.00, p);
 
     // Böljande horisont: långsamma vågor plus lite brus, så den aldrig blir en rak linje
     float wave = (fbm(vec2(x * 2.2 + t, 1.7 + t * 0.5)) - 0.5) * 130.0
@@ -81,12 +86,12 @@ export const sunsetFragment = `
 
     // Himlen går från kall natt via rosa till amber vid horisonten
     vec3 col = mix(DARK, mix(DARK, SKY, 0.16), smoothstep(0.0, 0.35, k));
-    col = mix(col, mix(DARK, ROSE, 0.30), smoothstep(0.28, 0.72, k));
-    col = mix(col, mix(DARK, AMBER, 0.42), smoothstep(0.62, 1.0, k));
+    col = mix(col, mix(DARK, ROSE, 0.30),  smoothstep(0.28, 0.72, k) * rosePhase);
+    col = mix(col, mix(DARK, AMBER, 0.42), smoothstep(0.62, 1.0,  k) * amberPhase);
 
     // Solen: starkare amber nära horisonten, mest åt höger
     float sunX = SUN_X + sin(uTime * ${DRIFT_SPEED.toFixed(3)}) * 0.03;
-    vec2 sunPos = vec2(sunX * aspect, 0.0);
+    vec2 sunPos = vec2(sunX * aspect, (1.0 - sunRise) * 0.30);
     vec2 q = vec2(x * aspect, (px.y - horizon) / uResolution.y * 1.0);
     float sunDist = length((q - sunPos) * vec2(1.0, 2.2));
     float sun = exp(-sunDist * sunDist * 9.0);
@@ -95,7 +100,7 @@ export const sunsetFragment = `
 
     // Svagare glöd längre åt vänster så färgen blir ojämn och naturlig
     float side = exp(-pow((x - 0.22 - sin(uTime * 0.015) * 0.08) * 2.4, 2.0)) * smoothstep(0.55, 1.0, k);
-    col += mix(ROSE, AMBER, 0.5) * side * 0.12;
+    col += mix(ROSE, AMBER, 0.5) * side * 0.12 * amberPhase;
 
     // Alfa: genomskinlig högst upp så att nattskyn sömlöst tar över
     float alpha = pow(clamp(s + warp * 0.5, 0.0, 1.0), 2.1) * MAX_SKY_ALPHA;

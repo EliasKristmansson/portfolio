@@ -42,28 +42,29 @@ export default function Header() {
         };
 
         scrollContainer.addEventListener("scroll", handleScroll, { passive: true });
-        return () => scrollContainer.removeEventListener("scroll", handleScroll);
-    }, []);
+                return () => scrollContainer.removeEventListener("scroll", handleScroll);
+            }, []);
 
-    return (
+            return (
         <header
             ref={headerRef}
-            className="sticky top-0 z-[1000] bg-midnight-dark/95 text-white p-6 border-b border-midnight-light flex h-18 items-center justify-between"
+            className="sticky top-0 z-[1000] flex h-18 items-center justify-between border-b border-midnight-light bg-midnight-dark/95 px-4 text-white sm:px-6"
             style={{ transform: `translateY(-${headerOffset}px)` }}
         >
-            <div className="relative flex items-center gap-3 cursor-pointer group">
-                <div className="p-1 border-[1.5px] border-white/60">
+            <a href="#home" className="group relative flex items-center gap-3">
+                <div className="border-[1.5px] border-white/60 p-1">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src="/images/outlinewhitethin.svg"
-                        alt="Elias Kristmansson logo"
-                        className="h-8 w-8 object-contain shrink-0"
+                        alt=""
+                        className="h-8 w-8 shrink-0 object-contain"
                     />
                 </div>
                 <div className="relative inline-block">
                     Elias Kristmansson
                     <span className="absolute left-0 -bottom-1 h-[1px] w-0 bg-white transition-all group-hover:w-full"></span>
                 </div>
-            </div>
+            </a>
             <div className="relative">
                 <button
                     type="button"
@@ -82,15 +83,14 @@ export default function Header() {
                 <div
                     id="header-profile-photo"
                     hidden={!profileOpen}
-                    aria-hidden={!profileOpen}
                     className="absolute right-0 top-full z-20 w-48 overflow-hidden border border-white/60 bg-midnight-dark shadow-2xl"
                 >
-                    <div className="flex h-7 items-center justify-between                     border-b border-white/40 bg-midnight-dark/95 px-3">
+                    <div className="flex h-7 items-center justify-between border-b border-white/40 bg-midnight-dark/95 px-3">
                         <span className="space-mono-bold text-[11px] tracking-wide text-white/80">thats_me.png</span>
                         <div aria-hidden="true" className="flex gap-1.5">
-                            <span className="h-2.5 w-2.5                             border border-rose" />
-                                                        <span className="h-2.5 w-2.5 border border-sky" />
-                                                        <span className="h-2.5 w-2.5 border border-white/40" />
+                            <span className="h-2.5 w-2.5 border border-rose" />
+                            <span className="h-2.5 w-2.5 border border-sky" />
+                            <span className="h-2.5 w-2.5 border border-white/40" />
                         </div>
                     </div>
                     <div className="relative aspect-square w-full bg-midnight-dark">
@@ -99,7 +99,6 @@ export default function Header() {
                             alt="Portrait of Elias Kristmansson"
                             className="object-cover"
                             sizes="192px"
-                            priority
                             fill
                         />
                     </div>
